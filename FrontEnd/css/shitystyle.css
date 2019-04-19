@@ -1,0 +1,88 @@
+body{
+  background-color:black;
+  text-indent:5em;
+}
+h1{
+  color:#ffffff
+}
+h2{
+  color:#ffffff
+}
+h3{
+  color:#ffffff
+}
+h4{
+  color:#ffffff
+}
+button{
+  background-color:black;
+  color:#e7e7e7;
+}
+hr{
+  margin:0 auto;
+  border: 0;
+  height: 4px;
+  background: #333;
+  background-image: linear-gradient(to right,#ffffff, #333, #ffffff);
+}
+input{
+  margin-left:6em;
+  width:500px;
+}
+.recommendations{
+  height:240px;
+}
+.indexRecommendation{
+  text-indent:0;
+  width:150px;
+  height:200px;
+  float: left;
+}
+.indexRecommendationImg{
+  width:100px;
+  height:133px;
+}
+.indexRecommendationBookName{
+  color:#ffffff
+}
+.indexRecommendation.firstrecom{
+  padding-left:5em;
+  text-indent:0;
+  width:150px;
+  height:200px;
+  float: left;
+}
+.container{
+  margin-left:5em;
+  border-left:10px solid #ffffff;
+  border-right:10px solid #ffffff;  
+}
+.newline{
+  position:relative;
+}
+.login{
+  
+  width:100px;
+  height:30px;
+  border:2px solid #ffffff;
+  float:right;
+  color: #ffffff;
+  text-align: center;
+  text-indent:0;
+}
+.detailPageIMG{
+  padding-top:20px;
+  width:150px;
+  height:200px;
+}
+.purchaseButton{
+  background-color:#ffffff;
+  color:black;
+  height:50px;
+  margin-left:6em;
+}
+.table,tr,td{
+  border:2px solid #ffffff;
+  color:#ffffff;
+  text-align: center;
+}

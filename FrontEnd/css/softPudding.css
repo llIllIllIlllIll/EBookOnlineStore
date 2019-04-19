@@ -1,0 +1,119 @@
+body{
+    background-color: rgb(253,246,227);
+    text-indent:5em;
+}
+h1{
+    color:rgb(117,79,64)
+}
+h2{
+    color:#006400
+}
+h3{
+    color:rgb(106,98,100)
+}
+h4{
+    color:rgb(106,98,100)
+}
+button{
+    background-color:black;
+    color:#e7e7e7;
+}
+hr{
+    margin:0 auto;
+    border: 0;
+    height: 4px;
+    background: #333;
+    background-image: linear-gradient(to right,white, #333, white);
+}
+input{
+    margin-left:6em;
+    width:500px;
+}
+.recommendations{
+    height:240px;
+}
+.indexRecommendation{
+    text-indent:0;
+    width:150px;
+    height:200px;
+    float: left;
+}
+.indexRecommendationImg{
+    width:100px;
+    height:133px;
+}
+.indexRecommendationBookName{
+    color:#228B22
+}
+.indexRecommendation.firstrecom{
+    padding-left:5em;
+    text-indent:0;
+    width:150px;
+    height:200px;
+    float: left;
+}
+.container{
+    margin-left:3em;
+    margin-right:0.5em;
+    border-left:10px solid rgb(106,98,100);
+    border-right:10px solid rgb(106,98,100);  
+}
+.newline{
+    position:relative;
+}
+.login{
+    
+    width:100px;
+    height:30px;
+    border:2px solid green;
+    float:right;
+    color: green;
+    text-align: center;
+    text-indent:0;
+}
+.detailPageIMG{
+    padding-top:20px;
+    width:150px;
+    height:200px;
+}
+.purchaseButton{
+    background-color:rgb(106,98,100);
+    color:black;
+    height:50px;
+    margin-left:6em;
+}
+.table,tr,td{
+    border:2px solid rgb(106,98,100);
+    color:rgb(106,98,100);
+    text-align: left;
+}
+.border{
+    position: fixed;
+}
+.registerButton{
+    background-color:rgb(106,98,100);
+    color:black;
+    height:30px;
+    margin-left:6em;
+    margin-top:3em;
+}
+.arrow {
+    display: inline-block;
+    vertical-align: middle;
+    width: 0;
+    height: 0;
+    margin-left: 36px;
+    opacity: 0.66;
+  }
+  
+.arrow.asc {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-bottom: 4px solid rgb(106,98,100);
+  }
+
+.arrow.dsc {
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid rgb(106,98,100);
+  }
