@@ -14,4 +14,7 @@ import java.util.List;
 public interface BookRepository extends CrudRepository<book, Integer> {
     @Query(value = "SELECT * FROM books", nativeQuery = true)
     public List<book> all ();
+
+    @Query(value = "SELECT * FROM books WHERE bookid= ?1", nativeQuery = true)
+    public List<book> getBookById(int bookid);
 }

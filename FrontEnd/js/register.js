@@ -16,7 +16,7 @@ var app_input=new Vue({
                 return;
             }
             if(this.pwd==this.pwd2&&this.pwd!=""){
-                this.$http.get('HTTP://localhost:8080/ebook/exist?accountname='+this.accountname)
+                this.$http.get('HTTP://106.12.89.107:8080/ebook/exist?accountname='+this.accountname)
                 .then(function(res){
                     console.log("请求成功");
                     this.a=res.body;
@@ -24,7 +24,7 @@ var app_input=new Vue({
                         alert("ACCOUNT EXIST! PLEASE USE ANOTHER NAME!");
                     }
                     else{
-                        this.$http.get('HTTP://localhost:8080/ebook/reg?accountname='+this.accountname+
+                        this.$http.get('HTTP://106.12.89.107:8080/ebook/reg?accountname='+this.accountname+
                         '&pwd='+this.pwd+'&email='+this.email).then(
                             function(res){
                                 console.log(res);

@@ -14,7 +14,7 @@ class book{
     private String isbnnum;
     private String author;
     private int storage;
-    private int price;
+    private float  price;
     private String imgurl;
 
     public int getBookid(){return bookid;}
@@ -22,6 +22,6 @@ class book{
     public String getIsbnnum(){return isbnnum;}
     public String getAuthor(){return author;}
     public int getStorage(){return storage;}
-    public int getPrice(){return price;}
+    public float getPrice(){return price;}
     public String getImgurl(){return imgurl;}
 }

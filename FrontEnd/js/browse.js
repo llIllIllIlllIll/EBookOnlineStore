@@ -35,7 +35,42 @@ Vue.component('book-info',{
 </div></div></li>'})
 
 const Detail={
-    props:['bks'],
+	props:['bks'],
+	methods:{
+		addToCart:function(bookid){
+			this.$http.get('http://106.12.89.107:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
+        	.then(function(res){
+				console.log('请求成功');
+                console.log(res);
+                if(res.body==false)
+                {
+                    alert("You Have To Log in First!");
+                    window.location.href="login.html";
+                }
+                else{
+					
+					this.$http.get('http://106.12.89.107:8080/orders/addToCart?bookid='+bookid,{emulateJSON:true,withCredentials:true})
+					.then(function(res){
+						console.log("请求成功");
+						if(res.body==true){
+							alert("Book "+bookid+" has been added to your shopping cart!");
+							window.location.href="browse.html";
+						}
+						else{
+							alert("failed.");
+						}
+					},function(){
+						console.log('请求失败处理');
+					});
+
+                }
+            
+            },function(){
+                console.log('请求失败处理');
+                alert("CONNECTION ERR.");
+            });
+		}
+	},
     template:'<section class="section bg-gray">\
 	<div class="container">\
 		<div class="row">\
@@ -206,7 +241,7 @@ const Detail={
 				<div class="sidebar">\
 					<div class="widget price text-center">\
 						<h4>Price</h4>\
-						<p>$230</p>\
+						<p>${{bks[0].price}}</p>\
 					</div>\
 					<!-- User Profile widget -->\
 					<div class="widget user">\
@@ -220,19 +255,14 @@ const Detail={
 						</ul>\
 					</div>\
 					<!-- Map Widget -->\
-					<div class="widget map">\
+					<div class="widget map" id="purchase">\
 						<div class="map">\
-							<div id="map"></div>\
+						<div class="col-lg-6 col-md-12">\
+						<button class="btn btn-main" style="margin-left:30px" @click="addToCart(bks[0].bookid)">\
+							Add To Shopping Cart\
+						</button>\
 						</div>\
-					</div>\
-					<!-- Rate Widget -->\
-					<div class="widget rate">\
-						<!-- Heading -->\
-						<h5 class="widget-header text-center">What would you rate\
-						<br>\
-						this book</h5>\
-						<!-- Rate -->\
-						<div class="starrr"></div>\
+						</div>\
 					</div>\
 					</div>\
 			</div>\
@@ -303,14 +333,14 @@ var app_browselist=new Vue({
         type:0
     },
     mounted(){
-        this.$http.get('http://localhost:8080/books/all').then(function(res){
+        this.$http.get('http://106.12.89.107:8080/books/all').then(function(res){
 				console.log('请求成功');
 				Object.assign(this.books,res.data);
 				console.log(this.books);
                 this.init();
             },function(){
                 console.log('请求失败处理');
-            });
+			});
         
     },
     methods:{
@@ -341,8 +371,7 @@ var app_browselist=new Vue({
                 this.displays.push(this.books[i]);
 
             }
-        },
-        
+		}
     },
     computed:{
     }

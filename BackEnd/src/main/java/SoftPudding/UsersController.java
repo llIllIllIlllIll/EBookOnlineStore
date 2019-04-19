@@ -15,6 +15,8 @@ import java.util.List;
 @Controller
 @RequestMapping(path="/ebook")
 public class UsersController {
+    final String ORIGIN="http://106.12.89.107";
+
     @Autowired
     private UserRepository userRepository;
 
@@ -53,10 +55,11 @@ public class UsersController {
                 System.out.println("Current USERNAME: "+session.getAttribute("USERNAME"));*/
                 session.setAttribute("USERID",userid);
                 session.setAttribute("USERNAME",accountname);
+                session.setAttribute("CART",null);
             }
             //System.out.println("Session ID: "+session.getId());
 
-            response.setHeader("Access-Control-Allow-Origin","null");
+            response.setHeader("Access-Control-Allow-Origin",ORIGIN);
             response.setHeader("Access-Control-Allow-Credentials","true");
 
             response.addCookie(new Cookie("USERID",Integer.toString(userid)));
@@ -66,7 +69,7 @@ public class UsersController {
             return true;
         }
         else {
-            response.setHeader("Access-Control-Allow-Origin","null");
+            response.setHeader("Access-Control-Allow-Origin",ORIGIN);
             response.setHeader("Access-Control-Allow-Credentials","true");
 
             return false;
@@ -80,7 +83,7 @@ public class UsersController {
         System.out.println("Session USERID: "+request.getSession().getAttribute("USERID"));
         System.out.println();*/
 
-        response.setHeader("Access-Control-Allow-Origin","null");
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
         response.setHeader("Access-Control-Allow-Credentials","true");
 
         return request.isRequestedSessionIdValid()&&request.getSession().getAttribute("USERID")!=null;
@@ -91,7 +94,7 @@ public class UsersController {
     public @ResponseBody String name(HttpServletRequest request,HttpServletResponse response){
         if(request.getSession().getAttribute("USERNAME")==null)
             return "NULL";
-        response.setHeader("Access-Control-Allow-Origin","null");
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
         response.setHeader("Access-Control-Allow-Credentials","true");
         return (String)request.getSession().getAttribute("USERNAME");
     }
