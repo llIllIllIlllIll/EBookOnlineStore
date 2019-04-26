@@ -21,7 +21,7 @@ public class OrderController {
     @Autowired
     private BookRepository bookRepository;
 
-    final String ORIGIN="http://106.12.89.107";
+    final String ORIGIN="null";
 
     @CrossOrigin(origins = "*" ,maxAge = 3600)
     @GetMapping(path="/all")
@@ -133,6 +133,7 @@ public class OrderController {
             List<book> bk= bookRepository.getBookById(bookid);
             float price_each = bk.get(0).getPrice();
             orderItemRepository.newOrderItem(orderid,bookid,price_each,num);
+            bookRepository.orderNBooks(num,bookid);
         }
 
         session.setAttribute("CART",null);

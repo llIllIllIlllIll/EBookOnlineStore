@@ -4,7 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Entity
 public class order {
@@ -12,7 +13,7 @@ public class order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int orderid;
     private int userid;
-    private Date orderdate;
+    private String orderdate;
 
     public int getOrderid(){
         return orderid;
@@ -20,7 +21,7 @@ public class order {
     public int getUserid(){
         return userid;
     }
-    public Date getOrderdate(){
+    public String getOrderdate(){
         return orderdate;
     }
     public void setOrderid(int orderid){
@@ -29,8 +30,8 @@ public class order {
     public void setUserid(int userid){
         this.userid=userid;
     }
-    public void setOrderdate(Date orderdate){
-        this.orderdate=orderdate;
+    public void setOrderdate(Timestamp orderdate){
+        this.orderdate=orderdate.toString();
     }
 
     private float allcost=0;

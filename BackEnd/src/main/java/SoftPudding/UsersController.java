@@ -15,7 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping(path="/ebook")
 public class UsersController {
-    final String ORIGIN="http://106.12.89.107";
+    final String ORIGIN="null";
 
     @Autowired
     private UserRepository userRepository;
@@ -29,16 +29,20 @@ public class UsersController {
 
     }
     @CrossOrigin(origins = "*" ,maxAge = 3600)
-    @GetMapping(path="/reg")
-    public @ResponseBody String register(@RequestParam String accountname,@RequestParam String pwd, @RequestParam String email)
+    @RequestMapping(value ="/reg", method = RequestMethod.POST)
+    public @ResponseBody String register(@RequestParam(value = "accountname") String accountname,
+                                         @RequestParam(value = "pwd") String pwd, @RequestParam(value= "email") String email,
+                                         HttpServletResponse response)
     {
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
         userRepository.register(accountname,pwd,email);
         return "Registered Successfully";
     }
     @CrossOrigin(origins = "*" ,maxAge = 3600)
-    @GetMapping(path="/login")
-    public @ResponseBody Boolean login(@RequestParam String accountname, @RequestParam String pwd, HttpServletRequest request
-                                        ,HttpServletResponse response){
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public @ResponseBody Boolean login(@RequestParam(value = "accountname")String accountname,
+            @RequestParam(value = "pwd") String pwd,HttpServletRequest request,HttpServletResponse response){
         List<Integer> res = userRepository.login(accountname, pwd);
         HttpSession session= request.getSession();
         if(res.size()==1)
