@@ -82,7 +82,7 @@
 ===================================-->
 <section class="dashboard section">
 	<!-- Container Start -->
-	<div class="container">
+	<div class="container" id="cart">
 		<!-- Row Start -->
 		<div class="row">
 			<div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
@@ -94,7 +94,7 @@
 							<img src="img/demouser.jpg" alt="" class="rounded-circle">
 						</div>
 						<!-- User Name -->
-						<h5 class="text-center">Demo Account</h5>
+						<h5 class="text-center">{{username}}</h5>
 						<p>Joined February 06, 2017</p>
 						<a href="user-profile.html" class="btn btn-main-sm">Edit Profile</a>
 					</div>
@@ -131,145 +131,24 @@
 							</tr>
 						</thead>
 						<tbody>
+							<tr is="cart-item"
+								v-for="(item,index) in cart"
+								v-bind:bookname="item.bookname"
+								v-bind:isbnnum="item.isbnnum"
+								v-bind:price="item.price"
+								v-bind:num="item.num"
+								v-bind:imgurl="item.imgurl"
+							></tr>
 							<tr>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td>
+									<button class="btn btn-main" style="margin-left:0px" @click="makeOrder()">
+									Make An Order
+									</button>
+								</td>
 								
-								<td class="product-thumb">
-									<img width="80px" height="auto" src="img/thinkinginjava.jpg" alt="image description"></td>
-								<td class="product-details">
-									<h3 class="title">Thinking In Java</h3>
-									<span class="add-id"><strong>ISBN:</strong> 1234567</span>
-									<span><strong>Prace: </strong>$111 </span>
-									<span class="status active"><strong>Status</strong>Available</span>
-								</td>
-								<td class="product-category"><span class="categories">IT</span></td>
-								<td class="action" data-title="Action">
-									<div class="">
-										<ul class="list-inline justify-content-center">
-											<li class="list-inline-item">
-												<a class="edit" href="">
-													<i class="fa fa-clipboard"></i>
-												</a>		
-											</li>
-											<li class="list-inline-item">
-												<a class="delete" href="">
-													<i class="fa fa-trash"></i>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								
-								<td class="product-thumb">
-									<img width="80px" height="auto" src="img/thinkinginjava.jpg" alt="image description"></td>
-								<td class="product-details">
-									<h3 class="title">Thinking In Java</h3>
-									<span class="add-id"><strong>ISBN:</strong> 1234567</span>
-									<span><strong>Prace: </strong>$111 </span>
-									<span class="status active"><strong>Status</strong>Available</span>
-								</td>
-								<td class="product-category"><span class="categories">IT</span></td>
-								<td class="action" data-title="Action">
-									<div class="">
-										<ul class="list-inline justify-content-center">
-											<li class="list-inline-item">
-												<a class="edit" href="">
-													<i class="fa fa-clipboard"></i>
-												</a>		
-											</li>
-											<li class="list-inline-item">
-												<a class="delete" href="">
-													<i class="fa fa-trash"></i>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								
-								<td class="product-thumb">
-									<img width="80px" height="auto" src="img/thinkinginjava.jpg" alt="image description"></td>
-								<td class="product-details">
-									<h3 class="title">Thinking In Java</h3>
-									<span class="add-id"><strong>ISBN:</strong> 1234567</span>
-									<span><strong>Prace: </strong>$111 </span>
-									<span class="status active"><strong>Status</strong>Available</span>
-								</td>
-								<td class="product-category"><span class="categories">IT</span></td>
-								<td class="action" data-title="Action">
-									<div class="">
-										<ul class="list-inline justify-content-center">
-											<li class="list-inline-item">
-												<a class="edit" href="">
-													<i class="fa fa-clipboard"></i>
-												</a>		
-											</li>
-											<li class="list-inline-item">
-												<a class="delete" href="">
-													<i class="fa fa-trash"></i>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								
-								<td class="product-thumb">
-									<img width="80px" height="auto" src="img/thinkinginjava.jpg" alt="image description"></td>
-								<td class="product-details">
-									<h3 class="title">Thinking In Java</h3>
-									<span class="add-id"><strong>ISBN:</strong> 1234567</span>
-									<span><strong>Prace: </strong>$111 </span>
-									<span class="status active"><strong>Status</strong>Available</span>
-								</td>
-								<td class="product-category"><span class="categories">IT</span></td>
-								<td class="action" data-title="Action">
-									<div class="">
-										<ul class="list-inline justify-content-center">
-											<li class="list-inline-item">
-												<a class="edit" href="">
-													<i class="fa fa-clipboard"></i>
-												</a>		
-											</li>
-											<li class="list-inline-item">
-												<a class="delete" href="">
-													<i class="fa fa-trash"></i>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</td>
-							</tr>
-							<tr>
-								
-								<td class="product-thumb">
-									<img width="80px" height="auto" src="img/thinkinginjava.jpg" alt="image description"></td>
-								<td class="product-details">
-									<h3 class="title">Thinking In Java</h3>
-									<span class="add-id"><strong>ISBN:</strong> 1234567</span>
-									<span><strong>Prace: </strong>$111 </span>
-									<span class="status active"><strong>Status</strong>Available</span>
-								</td>
-								<td class="product-category"><span class="categories">IT</span></td>
-								<td class="action" data-title="Action">
-									<div class="">
-										<ul class="list-inline justify-content-center">
-											<li class="list-inline-item">
-												<a class="edit" href="">
-													<i class="fa fa-clipboard"></i>
-												</a>		
-											</li>
-											<li class="list-inline-item">
-												<a class="delete" href="">
-													<i class="fa fa-trash"></i>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -313,7 +192,8 @@
   <!-- JAVASCRIPTS -->
 
 	<script src="js/scripts.js"></script>
-	<script src="js/browse.js"></script>
+	<script src="js/cart.js"></script>
+	<script src="js/vue.js"></script>
 
 </body>
 

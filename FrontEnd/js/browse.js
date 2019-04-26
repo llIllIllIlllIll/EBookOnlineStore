@@ -38,7 +38,7 @@ const Detail={
 	props:['bks'],
 	methods:{
 		addToCart:function(bookid){
-			this.$http.get('http://106.12.89.107:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
+			this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
         	.then(function(res){
 				console.log('请求成功');
                 console.log(res);
@@ -49,7 +49,7 @@ const Detail={
                 }
                 else{
 					
-					this.$http.get('http://106.12.89.107:8080/orders/addToCart?bookid='+bookid,{emulateJSON:true,withCredentials:true})
+					this.$http.get('http://localhost:8080/orders/addToCart?bookid='+bookid,{emulateJSON:true,withCredentials:true})
 					.then(function(res){
 						console.log("请求成功");
 						if(res.body==true){
@@ -333,7 +333,7 @@ var app_browselist=new Vue({
         type:0
     },
     mounted(){
-        this.$http.get('http://106.12.89.107:8080/books/all').then(function(res){
+        this.$http.get('http://localhost:8080/books/all').then(function(res){
 				console.log('请求成功');
 				Object.assign(this.books,res.data);
 				console.log(this.books);

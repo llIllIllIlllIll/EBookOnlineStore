@@ -121,11 +121,21 @@
 				<!-- Recently Favorited -->
 				<div class="widget dashboard-container my-adslist" >
 					<h3 class="widget-header">All orders</h3>
+					<p>Select from   
+						<input v-model="y1" style="margin-left:20px;width: 50px">-
+						<input v-model="m1" style="width: 25px">-
+						<input v-model="d1" style="margin-right:20px;width: 25px">
+						to
+						<input v-model="y2" style="margin-left:20px;width: 50px">-
+						<input v-model="m2" style="width: 25px">-
+						<input v-model="d2" style="margin-right:20px;width: 25px">
+						<button class="btn btn-main-sm" @click="filt">Search</button>
+					</p>
 					<table class="table table-responsive product-dashboard-table">
 							<tr>
 								<th>Order ID</th>
 								<th>Detail</th>
-								<th class="text-center">Data</th>
+								<th class="text-center">Date</th>
 								<th class="text-center">Action</th>
 							</tr>
 							<tr is="order-info"

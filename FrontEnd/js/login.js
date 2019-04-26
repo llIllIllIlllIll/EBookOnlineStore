@@ -15,7 +15,7 @@ var app_login=new Vue({
                 return;
             }
             else{
-                this.$http.get('http://106.12.89.107:8080/ebook/login?accountname='+this.accountname+'&pwd='+this.pwd,
+                this.$http.post('http://localhost:8080/ebook/login',{accountname:this.accountname,pwd:this.pwd},
                 {emulateJSON:true,withCredentials:true})
                 .then(function(res){
                     console.log("请求成功");

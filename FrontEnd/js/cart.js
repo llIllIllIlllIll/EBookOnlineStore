@@ -35,7 +35,7 @@ var app_cart= new Vue({
         cart:[],temp:[],username:"BILLY"
     },
     mounted(){
-        this.$http.get('http://106.12.89.107:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
+        this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
         .then(function(res){
 				console.log('请求成功');
                 console.log(res);
@@ -53,7 +53,7 @@ var app_cart= new Vue({
                 alert("CONNECTION ERR.");
             });
 
-            this.$http.get('http://106.12.89.107:8080/ebook/name',{emulateJSON:true,withCredentials:true})
+            this.$http.get('http://localhost:8080/ebook/name',{emulateJSON:true,withCredentials:true})
             .then(function(res){
 				console.log('请求成功');
                 console.log(res.bodyText);
@@ -64,7 +64,7 @@ var app_cart= new Vue({
                 alert("CONNECTION ERR.");
             });
             
-        this.$http.get('http://106.12.89.107:8080/orders/getCart',{emulateJSON:true,withCredentials:true})
+        this.$http.get('http://localhost:8080/orders/getCart',{emulateJSON:true,withCredentials:true})
         .then(function(res){
                 console.log('请求成功');
                 console.log(res);
@@ -82,7 +82,7 @@ var app_cart= new Vue({
     },
     methods:{
         makeOrder:function(){
-        this.$http.get('http://106.12.89.107:8080/orders/makeOrder',{emulateJSON:true,withCredentials:true})
+        this.$http.get('http://localhost:8080/orders/makeOrder',{emulateJSON:true,withCredentials:true})
         .then(function(res){
                 console.log('请求成功');
                 console.log(res);

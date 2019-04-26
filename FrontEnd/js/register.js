@@ -10,13 +10,19 @@ var app_input=new Vue({
     },
     methods:{
         reg:function(){
+            var EmailReg = /\w*@\w*\.\w+/;
             if(this.accountname==""||this.email==""||this.pwd==""||this.pwd2=="")
             {
                 alert("ALL INFORMATION MUST BE FILLED IN!");
                 return;
             }
-            if(this.pwd==this.pwd2&&this.pwd!=""){
-                this.$http.get('HTTP://106.12.89.107:8080/ebook/exist?accountname='+this.accountname)
+            if(EmailReg.test(this.email)==false){
+                alert("PLEASE ENTER A VALID EMAIL ADDRESS!");
+                this.email="";
+                return;
+            }
+            if(this.pwd==this.pwd2){
+                this.$http.get('HTTP://localhost:8080/ebook/exist?accountname='+this.accountname)
                 .then(function(res){
                     console.log("请求成功");
                     this.a=res.body;
@@ -24,8 +30,10 @@ var app_input=new Vue({
                         alert("ACCOUNT EXIST! PLEASE USE ANOTHER NAME!");
                     }
                     else{
-                        this.$http.get('HTTP://106.12.89.107:8080/ebook/reg?accountname='+this.accountname+
-                        '&pwd='+this.pwd+'&email='+this.email).then(
+                        this.$http.post('http://localhost:8080/ebook/reg',
+                        {accountname:this.accountname,pwd:this.pwd,email:this.email},
+                        {emulateJSON:true,withCredentials:true})
+                        .then(
                             function(res){
                                 console.log(res);
                                 alert("YOU HAVE BEEN SUCCESSFULLY REGISTERED!");

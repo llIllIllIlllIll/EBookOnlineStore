@@ -30,7 +30,7 @@ Vue.component('order-info',{
 var app_main = new Vue({
     el:"#main",
     mounted(){
-        this.$http.get('http://106.12.89.107:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
+        this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
         .then(function(res){
 				console.log('请求成功');
                 console.log(res);
@@ -54,10 +54,10 @@ var app_main = new Vue({
 
 var app_order=new Vue({
     el:"#orderlist",
-    data:{orders:[],temp:[],username:"NULL"},
+    data:{orders:[],ori:[],username:"NULL",y1:"",y2:"",m1:"",m2:"",d1:"",d2:""},
     methods:{
         init:function(){
-            this.$http.get('http://106.12.89.107:8080/ebook/name',{emulateJSON:true,withCredentials:true})
+            this.$http.get('http://localhost:8080/ebook/name',{emulateJSON:true,withCredentials:true})
             .then(function(res){
 				console.log('请求成功');
                 console.log(res.bodyText);
@@ -68,20 +68,59 @@ var app_order=new Vue({
                 alert("CONNECTION ERR.");
             });
 
-            this.$http.get('http://106.12.89.107:8080/orders/all',{emulateJSON:true,withCredentials:true})
+            this.$http.get('http://localhost:8080/orders/all',{emulateJSON:true,withCredentials:true})
             .then(function(res){
 				console.log('请求成功');
                 console.log(res.body);
-                Object.assign(this.temp,res.body);
-                for(var i=0;i<this.temp.length;i++)
+                Object.assign(this.ori,res.body);
+                for(var i=0;i<this.ori.length;i++)
                 {
-                    this.orders.push(this.temp[i]);
+                    this.orders.push(this.ori[i]);
 
                 }
             },function(){
                 console.log('请求失败处理');
                 alert("CONNECTION ERR.");
             });
+        },
+    filt:function(){
+        if(this.y1==""||this.y2==""||this.m1==""||this.m2==""||this.d1==""||this.d2=="")
+        {
+            var l= this.orders.length;
+            for(var i=0;i<l;i++)
+                this.orders.pop();
+            for(var i=0;i<this.ori.length;i++)
+            {
+                this.orders.push(this.ori[i]);
+            }
+            return;
         }
+
+        var y1=Number(this.y1),y2=Number(this.y2);
+        var m1=Number(this.m1),m2=Number(this.m2);
+        var d1=Number(this.d1),d2=Number(this.d2);
+        var y,m,d;
+        var l= this.orders.length;
+        for(var i=0;i<l;i++)
+            this.orders.pop();
+        for(var i=0;i<this.ori.length;i++){
+            var exp=new RegExp(/\d+/,"g");
+            y=Number(exp.exec(this.ori[i].orderdate));
+            m=Number(exp.exec(this.ori[i].orderdate));
+            d=Number(exp.exec(this.ori[i].orderdate));
+            if(y>y1&&y<y2){
+                this.orders.push(this.ori[i]);
+                continue;
+            }
+            else if((y==y1||y==y2)&&m>m1&&m<m2){
+                this.orders.push(this.ori[i]);
+                continue;
+            }
+            else if((y==y1||y==y2)&&(m==m1||m==m2)&&d>=d1&&d<=d2){
+                this.orders.push(this.ori[i]);
+                continue;
+            }
+        }
+    }
     }
 })
