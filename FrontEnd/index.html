@@ -9,7 +9,6 @@
   <title>Ebook online store</title>
   
   <!-- PLUGINS CSS STYLE -->
-  <link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
   <!-- Bootstrap -->
   <link href="plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
@@ -40,7 +39,7 @@
 
 
 <section>
-	<div class="container">
+	<div class="container" id="main">
 		<div class="row">
 			<div class="col-md-12">
 				<nav class="navbar navbar-expand-lg  navigation">
@@ -63,11 +62,14 @@
 							</li>
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
-							<li class="nav-item">
+							<li class="nav-item" v-if="!isLoggedIn">
 								<a class="nav-link login-button" href="login.html">Login</a>
 							</li>
-							<li class="nav-item">
+							<li class="nav-item" v-if="!isLoggedIn">
 								<a class="nav-link login-button" href="register.html">Register</a>
+							</li>
+							<li class="nav-item" v-if="isLoggedIn">
+								<a class="nav-link"><b>Welcome, {{username}}!</b></a>
 							</li>
 						</ul>
 					</div>

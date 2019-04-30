@@ -9,7 +9,6 @@
   <title>All orders</title>
   
   <!-- PLUGINS CSS STYLE -->
-  <link href="plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
   <!-- Bootstrap -->
   <link href="plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Font Awesome -->
@@ -64,11 +63,14 @@
 							</li>
 						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
-							<li class="nav-item">
-								<a class="nav-link login-button" href="index.html">Login</a>
+							<li class="nav-item" v-if="!isLoggedIn">
+								<a class="nav-link login-button" href="login.html">Login</a>
 							</li>
-							<li class="nav-item">
+							<li class="nav-item" v-if="!isLoggedIn">
 								<a class="nav-link login-button" href="register.html">Register</a>
+							</li>
+							<li class="nav-item" v-if="isLoggedIn">
+								<a class="nav-link"><b>Welcome, {{username}}!</b></a>
 							</li>
 						</ul>
 					</div>
@@ -108,7 +110,7 @@
 								<a href="account-shopping-cart.html"><i class="fa fa-file-archive-o"></i>Shopping Cart <span>12</span></a>
 							</li>
 							<li>
-								<a href="logout.html"><i class="fa fa-cog"></i> Logout</a>
+								<a href="" v-on:click="logout()"><i class="fa fa-cog"></i>Logout</a>
 							</li>
 							<li>
 								<a href="delete-account.html"><i class="fa fa-power-off"></i>Delete Account</a>

@@ -102,4 +102,16 @@ public class UsersController {
         response.setHeader("Access-Control-Allow-Credentials","true");
         return (String)request.getSession().getAttribute("USERNAME");
     }
+
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/logout")
+    public @ResponseBody void logout(HttpServletRequest request,HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+
+        HttpSession session = request.getSession();
+        session.setAttribute("USERNAME",null);
+        session.setAttribute("CART",null);
+        session.setAttribute("USERID",null);
+    }
 }

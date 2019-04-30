@@ -1,5 +1,11 @@
 Vue.component('cart-item',{
-    props:['bookname','isbnnum','price','num','imgurl'],
+    props:['bookid','bookname','isbnnum','price','num','imgurl'],
+    methods:{
+        deleteItem:function(bookid){
+            this.$http.get('http://localhost:8080/orders/deleteItem?bookid='+bookid,{emulateJSON:true,withCredentials:true})
+            .then();
+        }
+    },
     template:'<tr>\
                 <td class="product-thumb">\
                 <img width="80px" height="auto" :src="imgurl" alt="image description"></td>\
@@ -14,13 +20,13 @@ Vue.component('cart-item',{
                     <div class="">\
                     <ul class="list-inline justify-content-center">\
                         <li class="list-inline-item">\
-                            <a class="edit" href="">\
+                            <a class="edit" >\
                                 <i class="fa fa-clipboard"></i>\
                             </a>\
                         </li>\
                         <li class="list-inline-item">\
                             <a class="delete" href="">\
-                                <i class="fa fa-trash"></i>\
+                                <i class="fa fa-trash" @click="deleteItem(bookid)"></i>\
                             </a>\
                         </li>\
                     </ul>\
@@ -45,7 +51,7 @@ var app_cart= new Vue({
                     window.location.href="login.html";
                 }
                 else{
-                    alert("You Have Already Logged in.");
+                    //alert("You Have Already Logged in.");
                 }
             
             },function(){
@@ -58,6 +64,8 @@ var app_cart= new Vue({
 				console.log('请求成功');
                 console.log(res.bodyText);
                 this.username=res.bodyText;
+                app_main.isLoggedIn=true;
+                app_main.username=this.username;
                 
             },function(){
                 console.log('请求失败处理');
@@ -98,6 +106,25 @@ var app_cart= new Vue({
                 console.log('请求失败处理');
                 alert("CONNECTION ERR.");
             });
+        },
+        logout:function(){
+            this.$http.get("http://localhost:8080/ebook/logout",{emulateJSON:true,withCredentials:true})
+            .then(function(){
+                console.log("You have logged out.");
+                window.location.href="index.html";
+            },function(){
+                console.log("NET ERR.");
+            });
+            
         }
+    },
+})
+
+
+var app_main= new Vue({
+    el:"#main",
+    data:{
+        isLoggedIn:false,
+        username:""
     }
 })

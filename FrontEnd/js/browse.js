@@ -307,11 +307,13 @@ var app_search=new Vue({
             else{
                 for(var i=0;i<app_browselist.books.length;i++)
                 {   
-                    if(app_browselist.books[i].title.toLowerCase().match(this.searchContent.toLowerCase())||
+                    if(app_browselist.books[i].bookname.toLowerCase().match(this.searchContent.toLowerCase())||
                         app_browselist.books[i].author.toLowerCase().match(this.searchContent.toLowerCase())||
                         app_browselist.books[i].isbnnum.toLowerCase().match(this.searchContent.toLowerCase()))
-                        app_browselist.displays.push(app_browselist.books[i]);
-                }
+                        { 
+							app_browselist.displays.push(app_browselist.books[i]);
+						}
+				}
 			}
 			if(app_browselist.browse_state==false){
 				app_browselist.browse_state=true;
@@ -370,12 +372,50 @@ var app_browselist=new Vue({
             {
                 this.displays.push(this.books[i]);
 
-            }
+			}
 		}
     },
     computed:{
     }
 })
+
+var app_main=new Vue({
+    el:"#main",
+    data:{
+        isLoggedIn:false,
+        username:null
+    },
+    mounted(){
+        this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
+        .then(function(res){
+				console.log('请求成功');
+                console.log(res);
+                if(res.body==false)
+                {
+                    this.isLoggedIn=false;
+                    return ;
+                }
+                else{
+                    this.isLoggedIn=true;
+                    this.$http.get('http://localhost:8080/ebook/name',{emulateJSON:true,withCredentials:true})
+                    .then(function(res){
+                        console.log('请求成功');
+                        console.log(res.bodyText);
+                        this.username=res.bodyText;
+                        
+                    },function(){
+                        console.log('请求失败处理');
+                        alert("CONNECTION ERR.");
+                    });             
+                }
+            
+            },function(){
+                console.log('请求失败处理');
+                alert("CONNECTION ERR.");
+            });
+    }
+})
+
 
 function comparator1(a,b)
 {
@@ -393,3 +433,4 @@ function comparator4(a,b)
 {
     return Number(a.isbnnum)-Number(b.isbnnum);
 }
+

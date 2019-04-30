@@ -27,30 +27,6 @@ Vue.component('order-info',{
 </tr>'
 })
 
-var app_main = new Vue({
-    el:"#main",
-    mounted(){
-        this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
-        .then(function(res){
-				console.log('请求成功');
-                console.log(res);
-                if(res.body==false)
-                {
-                    alert("You Have To Log in First!");
-                    window.location.href="login.html";
-                }
-                else{
-                    alert("You Have Already Logged in.");
-                    app_order.init();
-                }
-            
-            },function(){
-                console.log('请求失败处理');
-                alert("CONNECTION ERR.");
-            });
-    }
-    
-})
 
 var app_order=new Vue({
     el:"#orderlist",
@@ -62,6 +38,7 @@ var app_order=new Vue({
 				console.log('请求成功');
                 console.log(res.bodyText);
                 this.username=res.bodyText;
+                app_main.username=this.username;
                 
             },function(){
                 console.log('请求失败处理');
@@ -121,6 +98,46 @@ var app_order=new Vue({
                 continue;
             }
         }
+    },
+    logout:function(){
+        this.$http.get("http://localhost:8080/ebook/logout",{emulateJSON:true,withCredentials:true})
+        .then(function(){
+            console.log("You have logged out.");
+            window.location.href="index.html";
+        },function(){
+            console.log("NET ERR.");
+        });
+        
     }
     }
+})
+
+
+var app_main = new Vue({
+    el:"#main",
+    data:{
+        isLoggedIn:false,username:""
+    },
+    mounted(){
+        this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
+        .then(function(res){
+				console.log('请求成功');
+                console.log(res);
+                if(res.body==false)
+                {
+                    alert("You Have To Log in First!");
+                    window.location.href="login.html";
+                }
+                else{
+                    //alert("You Have Already Logged in.");
+                    this.isLoggedIn=true;
+                    app_order.init();
+                }
+            
+            },function(){
+                console.log('请求失败处理');
+                alert("CONNECTION ERR.");
+            });
+    }
+    
 })

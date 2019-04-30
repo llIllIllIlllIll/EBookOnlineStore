@@ -36,5 +36,41 @@ Vue.component('card',{
 </div>'
 })
 var app_pop=new Vue({
-    el:"#pop",
+    el:"#pop"
+})
+var app_main=new Vue({
+    el:"#main",
+    data:{
+        isLoggedIn:false,
+        username:null
+    },
+    mounted(){
+        this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
+        .then(function(res){
+				console.log('请求成功');
+                console.log(res);
+                if(res.body==false)
+                {
+                    this.isLoggedIn=false;
+                    return ;
+                }
+                else{
+                    this.isLoggedIn=true;
+                    this.$http.get('http://localhost:8080/ebook/name',{emulateJSON:true,withCredentials:true})
+                    .then(function(res){
+                        console.log('请求成功');
+                        console.log(res.bodyText);
+                        this.username=res.bodyText;
+                        
+                    },function(){
+                        console.log('请求失败处理');
+                        alert("CONNECTION ERR.");
+                    });             
+                }
+            
+            },function(){
+                console.log('请求失败处理');
+                alert("CONNECTION ERR.");
+            });
+    }
 })

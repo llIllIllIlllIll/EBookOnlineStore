@@ -22,7 +22,7 @@ var app_input=new Vue({
                 return;
             }
             if(this.pwd==this.pwd2){
-                this.$http.get('HTTP://localhost:8080/ebook/exist?accountname='+this.accountname)
+                this.$http.get('http://localhost:8080/ebook/exist?accountname='+this.accountname)
                 .then(function(res){
                     console.log("请求成功");
                     this.a=res.body;

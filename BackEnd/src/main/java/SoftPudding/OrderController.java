@@ -14,6 +14,7 @@ import java.util.*;
 @Controller    // This means that this class is a Controller
 @RequestMapping(path="/orders")
 public class OrderController {
+    final String ORIGIN="null";
     @Autowired
     private OrderRepository orderRepository;
     @Autowired
@@ -21,7 +22,7 @@ public class OrderController {
     @Autowired
     private BookRepository bookRepository;
 
-    final String ORIGIN="null";
+
 
     @CrossOrigin(origins = "*" ,maxAge = 3600)
     @GetMapping(path="/all")
@@ -139,6 +140,21 @@ public class OrderController {
         session.setAttribute("CART",null);
         return true;
     }
+
+    @CrossOrigin(origins = "*", maxAge = 3600)
+    @GetMapping(path = "/deleteItem")
+    public @ResponseBody List<cartitem> deleteItem(@RequestParam int bookid,HttpServletRequest request,HttpServletResponse response){
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        HttpSession session = request.getSession();
+        Map<Integer,Integer> cart = (Map<Integer, Integer>)session.getAttribute("CART");
+        cart.remove(bookid);
+        System.out.println("removed bookid ="+bookid);
+        session.setAttribute("CART",cart);
+        System.out.println(session.getAttribute("CART"));
+        return getCart(request,response);
+    }
+
 
 
 }
