@@ -1,19 +1,34 @@
-package SoftPudding;
+package SoftPudding.Entity;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "books")
-class book{
+public class book{
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private int bookid;
+
     private String bookname;
+
     private String isbnnum;
+
     private String author;
+
     private int storage;
+
     private float  price;
+
     private String imgurl;
+
+    public book(String bookname, String isbnnum, String author, int storage,float price, String url){
+        this.bookname=bookname;
+        this.isbnnum=isbnnum;
+        this.author=author;
+        this.storage=storage;
+        this.price=price;
+        this.imgurl=url;
+    }
+    public book(){}
 
     public int getBookid(){return bookid;}
     public String getBookname(){return bookname;}

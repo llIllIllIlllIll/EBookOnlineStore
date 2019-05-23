@@ -1,6 +1,14 @@
-package SoftPudding;
+package SoftPudding.Controller;
 
 
+import SoftPudding.Entity.*;
+import SoftPudding.Object.cartitem;
+import SoftPudding.Service.BookService;
+import SoftPudding.Service.OrderService;
+import SoftPudding.Service.UserService;
+import SoftPudding.ServiceImpl.BookServiceImpl;
+import SoftPudding.ServiceImpl.OrderServiceImpl;
+import SoftPudding.ServiceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -15,22 +23,21 @@ import java.util.*;
 @RequestMapping(path="/orders")
 public class OrderController {
     final String ORIGIN="null";
-    @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
-    private OrderItemRepository orderItemRepository;
-    @Autowired
-    private BookRepository bookRepository;
 
-
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private BookService bookService;
 
     @CrossOrigin(origins = "*" ,maxAge = 3600)
     @GetMapping(path="/all")
-    public @ResponseBody List<order> all(HttpServletRequest request, HttpServletResponse response){
-        Integer userid=(Integer)request.getSession().getAttribute("USERID");
+    public @ResponseBody Set<order> all(HttpServletRequest request, HttpServletResponse response){
+        int userid=(int)request.getSession().getAttribute("USERID");
         response.setHeader("Access-Control-Allow-Origin",ORIGIN);
         response.setHeader("Access-Control-Allow-Credentials","true");
-        List<order> orders= orderRepository.getAllOrders(userid);
+        Set<order> orders= userService.searchById(userid).getOrders();
         for(order it:orders){
             Set<orderitem> allitems = it.getOrderitems();
             float allcost=0;int allbooks=0;
@@ -46,8 +53,8 @@ public class OrderController {
 
     @CrossOrigin(origins = "*", maxAge = 3600)
     @GetMapping(path="/info")
-    public @ResponseBody List<orderitem> infoAboutOrder(@RequestParam int orderid){
-        return orderItemRepository.searchForOrder(orderid);
+    public @ResponseBody Set<orderitem> infoAboutOrder(@RequestParam int orderid){
+        return orderService.getOrderitemsByOrderid(orderid);
     }
 
     @CrossOrigin(origins = "*", maxAge = 3600)
@@ -97,14 +104,14 @@ public class OrderController {
             return null;
         else{
             for(Map.Entry<Integer,Integer> entry: session_cart.entrySet()){
-                List<book> bk = bookRepository.getBookById(entry.getKey());
+                book bk = bookService.getByBookid(entry.getKey());
                 cartitem item = new cartitem();
                 item.setBookid(entry.getKey());
                 item.setNum(entry.getValue());
-                item.setBookname(bk.get(0).getBookname());
-                item.setIsbnnum(bk.get(0).getIsbnnum());
-                item.setImgurl(bk.get(0).getImgurl());
-                item.setPrice(bk.get(0).getPrice());
+                item.setBookname(bk.getBookname());
+                item.setIsbnnum(bk.getIsbnnum());
+                item.setImgurl(bk.getImgurl());
+                item.setPrice(bk.getPrice());
 
                 cart.add(item);
             }
@@ -125,16 +132,16 @@ public class OrderController {
             return false;
         Map<Integer,Integer> cart = (Map<Integer,Integer>)session.getAttribute("CART");
         int userid=(Integer)session.getAttribute("USERID");
-        orderRepository.makeNewOrder(userid);
-        int orderid= orderRepository.getOrderId();
+        orderService.makeNewOrder(userid);
+        int orderid= orderService.getLatestOrderid();
 
         for(Map.Entry<Integer,Integer> entry: cart.entrySet()){
             int bookid= entry.getKey();
             int num = entry.getValue();
-            List<book> bk= bookRepository.getBookById(bookid);
-            float price_each = bk.get(0).getPrice();
-            orderItemRepository.newOrderItem(orderid,bookid,price_each,num);
-            bookRepository.orderNBooks(num,bookid);
+            book bk = bookService.getByBookid(bookid);
+            float price_each = bk.getPrice();
+            orderService.saveOrderitem(orderid,bookid,price_each,num);
+            bookService.deleteNBooksFromStorage(num,bookid);
         }
 
         session.setAttribute("CART",null);

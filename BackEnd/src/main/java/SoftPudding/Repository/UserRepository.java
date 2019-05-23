@@ -1,6 +1,8 @@
-package SoftPudding;
+package SoftPudding.Repository;
 
+import SoftPudding.Entity.user;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -21,4 +23,7 @@ public interface UserRepository extends CrudRepository<user, Integer> {
     @Query(value= "SELECT id FROM user WHERE accountname= ?1 AND pwd = ?2",nativeQuery = true)
     public List<Integer> login (String accountname, String pwd);
 
+    public List<user> getById(int id);
+
+    public List<user> getByAccountname(String accountname);
 }

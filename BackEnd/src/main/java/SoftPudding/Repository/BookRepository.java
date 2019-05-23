@@ -1,6 +1,8 @@
-package SoftPudding;
+package SoftPudding.Repository;
 
+import SoftPudding.Entity.book;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -13,12 +15,14 @@ import java.util.List;
 // CRUD refers Create, Read, Update, Delete
 @Repository
 @Qualifier
-public interface UserRepository extends CrudRepository<user, Integer> {
+public interface BookRepository extends CrudRepository<book, Integer> {
 
-    @Query(value = "SELECT exist_user( ?1 )", nativeQuery = true)
-    public int search (String accountname);
+    public List<book> findAll ();
 
-    @Query(value= "SELECT id FROM user WHERE accountname= ?1 AND pwd = ?2",nativeQuery = true)
-    public List<Integer> login (String accountname, String pwd);
+    public List<book> getByBookid(int bookid);
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE books SET books.storage = books.storage - ?1 WHERE bookid = ?2",nativeQuery = true)
+    public void orderNBooks(int n, int bookid);
 }

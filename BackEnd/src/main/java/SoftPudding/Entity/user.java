@@ -1,12 +1,14 @@
-package SoftPudding;
+package SoftPudding.Entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table (name = "user")
 public class user {
     @Id
-    private long ID;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
     @Column(name = "accountname")
     private String accountname;
@@ -20,20 +22,24 @@ public class user {
     @Column(name = "isadmin")
     private Boolean isadmin;
 
-    user(long ID, String accountname, String email, String pwd){
+    @OneToMany(mappedBy = "userid", fetch = FetchType.LAZY)
+    private Set<order> orders;
+
+    public user(long ID, String accountname, String email, String pwd){
         this.setAccountname(accountname);
         this.setEmail(email);
-        this.setID(0L);
+        this.setID(0);
         this.setPwd(pwd);
         this.setIsadmin(false);
     }
+    public user(){}
 
-    public Long getID() {
-        return ID;
+    public int getID() {
+        return id;
     }
 
-    public void setID(Long id) {
-        this.ID = id;
+    public void setID(int id) {
+        this.id = id;
     }
 
     public String getAccountname() {
@@ -67,4 +73,6 @@ public class user {
     public boolean getIsadmin( ){
         return this.isadmin;
     }
+
+    public Set<order> getOrders(){return this.orders;}
 }

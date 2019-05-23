@@ -1,6 +1,10 @@
-package SoftPudding;
+package SoftPudding.Controller;
 
 
+import SoftPudding.Entity.user;
+import SoftPudding.Repository.UserRepository;
+import SoftPudding.Service.UserService;
+import SoftPudding.ServiceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +22,12 @@ public class UsersController {
     final String ORIGIN="null";
 
     @Autowired
-    private UserRepository userRepository;
+    UserService userService;
 
     @CrossOrigin(origins = "*" ,maxAge = 3600)
     @GetMapping(path="/exist")
     public @ResponseBody boolean exist(@RequestParam String accountname){
-        if(userRepository.search(accountname)==0)
+        if(!userService.checkAccountname(accountname))
             return false;
         else return true;
 
@@ -36,18 +40,18 @@ public class UsersController {
     {
         response.setHeader("Access-Control-Allow-Origin",ORIGIN);
         response.setHeader("Access-Control-Allow-Credentials","true");
-        userRepository.save(new user(0,accountname,email,pwd));
+        userService.saveNewUser(new user(0,accountname,email,pwd));
         return "Registered Successfully";
     }
     @CrossOrigin(origins = "*" ,maxAge = 3600)
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public @ResponseBody Boolean login(@RequestParam(value = "accountname")String accountname,
             @RequestParam(value = "pwd") String pwd,HttpServletRequest request,HttpServletResponse response){
-        List<Integer> res = userRepository.login(accountname, pwd);
+        boolean res = userService.checkAccountnameAndPwd(accountname,pwd);
         HttpSession session= request.getSession();
-        if(res.size()==1)
+        if(res)
         {
-            int userid = res.get(0);
+            int userid = userService.getUseridByAccountname(accountname);
             if(!request.isRequestedSessionIdValid()||session.getAttribute("USERID")==null){
                 //System.out.println("No Session Valid.");
                 session.setAttribute("USERID",userid);
@@ -66,7 +70,7 @@ public class UsersController {
             response.setHeader("Access-Control-Allow-Origin",ORIGIN);
             response.setHeader("Access-Control-Allow-Credentials","true");
 
-            response.addCookie(new Cookie("USERID",Integer.toString(userid)));
+            response.addCookie(new Cookie("USERID",Long.toString(userid)));
             response.addCookie(new Cookie("USERNAME",accountname));
 
             //System.out.println();
