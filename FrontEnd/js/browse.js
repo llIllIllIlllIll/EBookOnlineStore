@@ -293,6 +293,11 @@ var app_search=new Vue({
     },
     methods:{
         search:function(){
+			if(app_browselist.browse_state==false){
+				app_browselist.browse_state=true;
+				router.go(-1);
+			}
+
             var l=app_browselist.displays.length;
             app_browselist.c=this.searchContent;
             for(var i=0;i<l;i++)
@@ -315,10 +320,7 @@ var app_search=new Vue({
 						}
 				}
 			}
-			if(app_browselist.browse_state==false){
-				app_browselist.browse_state=true;
-				router.go(-1);
-			}
+
         }
     }
 })
@@ -346,11 +348,11 @@ var app_browselist=new Vue({
         
     },
     methods:{
-        go:function(id){
+        go:function(index){
             bks.pop();
-            bks.push(this.books[id-1]);
-            router.push({ path: '/book'});
-			console.log('go '+id);
+            bks.push(this.displays[index]);
+			router.push({ path: '/book'});
+			console.log('go '+index);
 			this.browse_state=false;
         },
         sort:function(){

@@ -93,7 +93,6 @@
 				</div>
 				<!-- Advance Search -->
 				<div class="advance-search">
-					<form>
 						<div class="row" style="margin-left:20px;margin-top:0em;">
 							<!-- Store Search -->
 							<div class="col-lg-6 col-md-12">
@@ -105,7 +104,6 @@
                                 <button v-on:click="search" class="btn btn-main" style="margin-left:300px">SEARCH</button>
 							</div>
 						</div>
-					</form>
 					
 				</div>
 				
@@ -206,7 +204,7 @@
                         v-bind:imgurl="book.imgurl"
                         v-bind:isbnnum="book.isbnnum"
                         v-bind:storage="book.storage"
-                        v-on:go="go(book.bookid)"
+                        v-on:go="go(index)"
                         >
                         </li>
                         </ul>
