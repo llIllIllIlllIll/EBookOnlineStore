@@ -118,4 +118,22 @@ public class UsersController {
         session.setAttribute("CART",null);
         session.setAttribute("USERID",null);
     }
+
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/isadmin")
+    public @ResponseBody boolean checkIsadmin
+            (HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        HttpSession session = request.getSession();
+        Integer userid;
+        if((userid=(Integer) session.getAttribute("USERID"))==null){
+            System.err.print("Request does not have a valid session.");
+            throw new Exception("Request does not have a valid session.");
+        }
+        else{
+            return userService.checkIsadmin(userid);
+        }
+    }
+
 }
