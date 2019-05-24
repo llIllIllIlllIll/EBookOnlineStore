@@ -25,4 +25,8 @@ public interface BookRepository extends CrudRepository<book, Integer> {
     @Transactional
     @Query(value = "UPDATE books SET books.storage = books.storage - ?1 WHERE bookid = ?2",nativeQuery = true)
     public void orderNBooks(int n, int bookid);
+
+    @Modifying
+    @Transactional
+    public void deleteByBookid(int bookid);
 }

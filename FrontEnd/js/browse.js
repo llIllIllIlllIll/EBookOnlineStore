@@ -7,7 +7,8 @@ Vue.component('book-info',{
 		<div class="thumb-content">\
 			<div class="price">left:{{storage}}</div>\
 			<a>\
-				<img class="card-img-top img-fluid" :src="imgurl" alt="Card image cap">\
+				<img style="max-width:200px;max-height:200px;" \
+				class="card-img-top img-fluid" :src="imgurl" alt="Card image cap">\
 			</a>\
 		</div>\
 		<div class="card-body">\
@@ -385,7 +386,8 @@ var app_main=new Vue({
     el:"#main",
     data:{
         isLoggedIn:false,
-        username:null
+		username:null,
+		isadmin:false
     },
     mounted(){
         this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
@@ -403,7 +405,26 @@ var app_main=new Vue({
                     .then(function(res){
                         console.log('请求成功');
                         console.log(res.bodyText);
-                        this.username=res.bodyText;
+						this.username=res.bodyText;
+						//check isadmin
+						this.$http.get('http://localhost:8080/ebook/isadmin',{emulateJSON:true,withCredentials:true})
+                            .then(
+                                function(res){
+                                    console.log('请求成功:http://localhost:8080/ebook/isadmin');
+                                    console.log(res);
+                                    if(res.bodyText=="false"){
+                                        this.isadmin=false;
+                                    }
+                                    else{
+                                        this.isadmin=true;
+                                    }
+                                },
+                                function(){
+                                    console.log('请求失败:http://localhost:8080/ebook/isadmin');
+                                    alert("CONNECTION ERR.");
+                                    window.location.href="login.html";
+                                }
+                            )
                         
                     },function(){
                         console.log('请求失败处理');

@@ -10,4 +10,6 @@ public interface BookService {
     List<book> allBooks();
     book getByBookid(int bookid);
     void deleteNBooksFromStorage(int num,int bookid);
+    void saveNewBook(book b);
+    void deleteBook(int bookid);
 }

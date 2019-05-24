@@ -1,48 +1,3 @@
-Vue.component('list-item',{
-    props:['bookid','bookname','isbnnum','price','storage','imgurl'],
-    methods:{
-        deleteBook:function(bookid){
-            this.$http.get('http://localhost:8080/books/delete?bookid='+bookid,{emulateJSON:true,withCredentials:true})
-            .then(
-                function(res){
-                    if(res.bodyText=="true"){
-                        alert("Book has been successfully deleted!");
-                        window.location.reload();
-                    }
-                    else{
-                        alert("Access Refused.");
-                    }
-                },
-                function(){
-                    console.log("Fail in request: "+'http://localhost:8080/books/delete?bookid='+bookid);
-                }
-            )
-        }
-    },
-    template:'<tr>\
-                <td class="product-thumb">\
-                <img width="80px" height="auto" style="max-height:80px" :src="imgurl" alt="image description"></td>\
-                <td class="product-details">\
-                    <h3 class="title">{{bookname}}</h3>\
-                    <span class="add-id"><strong>ISBN:</strong>{{isbnnum}}</span>\
-                    <span><strong>Price: </strong>${{price}} </span>\
-                    <span class="status active"><strong>Storage</strong>{{storage}}</span>\
-                </td>\
-                <td class="product-category"><span class="categories">IT</span></td>\
-                <td class="action" data-title="Action">\
-                    <div class="">\
-                    <ul class="list-inline justify-content-center">\
-                        <li class="list-inline-item">\
-                            <a class="delete" href="javascript:void(0);"  @click="deleteBook(bookid)">\
-                                <i class="fa fa-trash"></i>\
-                            </a>\
-                        </li>\
-                    </ul>\
-                    </div>\
-                </td>\
-            </tr>'
-})
-
 var app_main= new Vue({
     el:"#main",
     data:{
@@ -107,21 +62,13 @@ var app_main= new Vue({
     
 })
 
-var app_bm= new Vue({
-    el:"#bm",
+var app_rd= new Vue({
+    el:"#rd",
     data:{
-        books:[],
-        displays:[]
+        bookname:"",author:"",isbnnum:"",
+        price:0,storage:0,file:{},
     },
     mounted(){
-        this.$http.get('http://localhost:8080/books/all').then(function(res){
-            console.log('请求成功');
-            Object.assign(this.books,res.data);
-            console.log(this.books);
-            this.init();
-        },function(){
-            console.log('请求失败处理');
-        });
     },
     methods:{
         logout:function(){
@@ -134,12 +81,30 @@ var app_bm= new Vue({
             });
             
         },
-        init:function(){
-            for(var i=0;i<this.books.length;i++)
-            {
-                this.displays.push(this.books[i]);
-
-			}
-		}
+        submitform:function(){
+            var formdata = new FormData();
+            formdata.append('bookname',this.bookname);
+            formdata.append('author',this.author);
+            formdata.append('isbnnum',this.isbnnum);
+            formdata.append('price',this.price);
+            formdata.append('storage',this.storage);
+            formdata.append('bookcover',this.file);
+            let config = {
+                'Content-Type': 'multipart/form-data',
+            };
+            this.$http.post('http://localhost:8080/books/insert',formdata,config)
+            .then(
+                function(){
+                    alert("BOOK "+this.bookname+" HAS BEEN INSERTED.");
+                    window.location.href="admin-book-insert.html";
+                },
+                function(){
+                    alert("FAIL TO SUBMIT FORM.");
+                }
+            )
+        },
+        fileChange:function(event){
+            this.file=event.target.files[0];
+        }
     }
 })

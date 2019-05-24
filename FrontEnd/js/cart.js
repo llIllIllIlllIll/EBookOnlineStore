@@ -4,6 +4,7 @@ Vue.component('cart-item',{
         deleteItem:function(bookid){
             this.$http.get('http://localhost:8080/orders/deleteItem?bookid='+bookid,{emulateJSON:true,withCredentials:true})
             .then();
+            window.location.reload();
         }
     },
     template:'<tr>\
@@ -25,7 +26,7 @@ Vue.component('cart-item',{
                             </a>\
                         </li>\
                         <li class="list-inline-item">\
-                            <a class="delete" href="">\
+                            <a class="delete" href="javascript:void(0);" >\
                                 <i class="fa fa-trash" @click="deleteItem(bookid)"></i>\
                             </a>\
                         </li>\
@@ -66,7 +67,24 @@ var app_cart= new Vue({
                 this.username=res.bodyText;
                 app_main.isLoggedIn=true;
                 app_main.username=this.username;
-                
+                //check isadmin
+                this.$http.get('http://localhost:8080/ebook/isadmin',{emulateJSON:true,withCredentials:true})
+                .then(
+                    function(res){
+                        console.log('请求成功:http://localhost:8080/ebook/isadmin');
+                        console.log(res);
+                        if(res.bodyText=="false"){
+                            app_main.isadmin=false;
+                        }
+                        else{
+                            app_main.isadmin=true;
+                        }
+                    },
+                    function(){
+                        console.log('请求失败:http://localhost:8080/ebook/isadmin');
+                        alert("CONNECTION ERR.");
+                        window.location.href="login.html";
+                    })
             },function(){
                 console.log('请求失败处理');
                 alert("CONNECTION ERR.");
@@ -125,6 +143,7 @@ var app_main= new Vue({
     el:"#main",
     data:{
         isLoggedIn:false,
-        username:""
+        username:"",
+        isadmin:false
     }
 })

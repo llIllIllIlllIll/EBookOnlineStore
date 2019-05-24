@@ -60,6 +60,9 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="account-shopping-cart.html">ShoppingCart</a>
                                 </li>
+                                <li class="nav-item" v-if="isadmin">
+                                    <a class="nav-link" href="admin-book-management.html">AdminPage</a>
+                                </li>
                             </ul>
                             <ul class="navbar-nav ml-auto mt-10">
                                 <li class="nav-item" v-if="!isLoggedIn">

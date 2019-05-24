@@ -39,7 +39,24 @@ var app_order=new Vue({
                 console.log(res.bodyText);
                 this.username=res.bodyText;
                 app_main.username=this.username;
-                
+                //check is admin
+                this.$http.get('http://localhost:8080/ebook/isadmin',{emulateJSON:true,withCredentials:true})
+                    .then(
+                        function(res){
+                            console.log('请求成功:http://localhost:8080/ebook/isadmin');
+                            console.log(res);
+                            if(res.bodyText=="false"){
+                                app_main.isadmin=false;
+                            }
+                            else{
+                                app_main.isadmin=true;
+                            }
+                        },
+                        function(){
+                            console.log('请求失败:http://localhost:8080/ebook/isadmin');
+                            alert("CONNECTION ERR.");
+                            window.location.href="login.html";
+                            })
             },function(){
                 console.log('请求失败处理');
                 alert("CONNECTION ERR.");
@@ -116,7 +133,7 @@ var app_order=new Vue({
 var app_main = new Vue({
     el:"#main",
     data:{
-        isLoggedIn:false,username:""
+        isLoggedIn:false,username:"",isadmin:false
     },
     mounted(){
         this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})

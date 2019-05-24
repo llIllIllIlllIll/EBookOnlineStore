@@ -26,4 +26,10 @@ public class BookServiceImpl implements BookService {
     public void deleteNBooksFromStorage(int num, int bookid){
         bookRepository.orderNBooks(num,bookid);
     }
+
+    public void saveNewBook(book b){
+        bookRepository.save(b);
+    }
+
+    public void deleteBook(int bookid){ bookRepository.deleteByBookid(bookid);}
 }
