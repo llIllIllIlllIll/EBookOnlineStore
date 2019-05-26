@@ -23,4 +23,13 @@ public interface OrderRepository extends CrudRepository<order, Integer> {
     public int getOrderId();
 
     public List<order> getByOrderid(int orderid);
+
+    public List<order> findAll();
+
+    //set those orders whose allcost is 0 to the right content
+    @Modifying
+    @Transactional
+    @Query(value = "CALL calcForAllOrders();", nativeQuery = true)
+    public void calcForAllOrders();
+
 }

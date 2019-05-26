@@ -1,9 +1,11 @@
 package SoftPudding.Service;
 
 
+import SoftPudding.Entity.order;
 import SoftPudding.Entity.orderitem;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 
 @Service
@@ -12,4 +14,5 @@ public interface OrderService {
     public void makeNewOrder(int userid);
     public int getLatestOrderid();
     public void saveOrderitem(int orderid, int bookid, float price, int num);
+    public List<order> getAllOrders();
 }

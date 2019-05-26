@@ -33,6 +33,11 @@ Vue.component('list-item',{
                     <div class="">\
                     <ul class="list-inline justify-content-center">\
                         <li class="list-inline-item">\
+                            <a class="edit" >\
+                                <i class="fa fa-clipboard"></i>\
+                            </a>\
+                        </li>\
+                        <li class="list-inline-item">\
                             <a class="delete" href="javascript:void(0);"  @click="deleteBook(bookid)">\
                                 <i class="fa fa-trash"></i>\
                             </a>\

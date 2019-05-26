@@ -9,6 +9,9 @@ import SoftPudding.Service.UserService;
 import SoftPudding.ServiceImpl.BookServiceImpl;
 import SoftPudding.ServiceImpl.OrderServiceImpl;
 import SoftPudding.ServiceImpl.UserServiceImpl;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -160,6 +163,26 @@ public class OrderController {
         session.setAttribute("CART",cart);
         System.out.println(session.getAttribute("CART"));
         return getCart(request,response);
+    }
+
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/allorders")
+    public @ResponseBody List<order> getAllOrders
+            (HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        HttpSession session = request.getSession();
+        Integer userid;
+        if((userid=(Integer) session.getAttribute("USERID"))==null){
+            System.err.print("Request does not have a valid session.");
+            throw new Exception("Request does not have a valid session.");
+        }
+        else{
+            if(userService.checkIsadmin(userid)){
+                return orderService.getAllOrders();
+            }
+        }
+        return null;
     }
 
 

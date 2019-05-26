@@ -34,4 +34,8 @@ public class OrderServiceImpl implements OrderService {
         orderitemRepository.save(orderid,bookid,p,n);
     }
 
+    public List<order> getAllOrders(){
+        orderRepository.calcForAllOrders();
+        return orderRepository.findAll();
+    }
 }

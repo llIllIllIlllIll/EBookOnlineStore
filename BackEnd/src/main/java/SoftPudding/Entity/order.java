@@ -1,5 +1,8 @@
 package SoftPudding.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -64,6 +67,7 @@ public class order {
         this.allcost=n;
     }
 
+    @JsonIgnore
     public Set<orderitem> getOrderitems(){
         return this.orderitems;
     }
