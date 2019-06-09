@@ -1,3 +1,9 @@
+import Vue from './vue.js';
+import VueResource from 'vue-resource';
+import VueRouter from './vue-router.js';
+Vue.use(VueResource);
+Vue.use(VueRouter);
+
 //Vue components
 
 Vue.component('book-info',{

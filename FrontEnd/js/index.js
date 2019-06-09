@@ -1,3 +1,7 @@
+import Vue from './vue.js';
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+
 Vue.component('card',{
     props:['title','imgurl','author'],
     template:'<div class="col-sm-12 col-lg-4">\

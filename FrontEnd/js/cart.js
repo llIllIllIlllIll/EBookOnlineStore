@@ -1,3 +1,7 @@
+import Vue from './vue.js';
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+
 Vue.component('cart-item',{
     props:['bookid','bookname','isbnnum','price','num','imgurl'],
     methods:{

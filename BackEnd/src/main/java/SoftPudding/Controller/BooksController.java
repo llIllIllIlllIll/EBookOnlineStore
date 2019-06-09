@@ -29,6 +29,7 @@ public class BooksController {
     final String ORIGIN="null";
     final String BOOKCOVERPATH="C:\\Users\\11570\\ebookimgs\\bookcovers\\";
     static Random rand =new Random();
+
     @Autowired
     private BookService bookService;
     @Autowired

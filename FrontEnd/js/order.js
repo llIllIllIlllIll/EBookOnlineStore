@@ -1,3 +1,7 @@
+import Vue from './vue.js';
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+
 Vue.component('order-info',{
     props:['orderid','date','allcost','allbooks'],
     template:'<tr><td class="product-thumb">\

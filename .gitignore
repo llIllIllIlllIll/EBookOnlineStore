@@ -14,4 +14,7 @@ dependency-reduced-pom.xml
 .gradle
 README.html
 *.iml
+*.zip
 .idea
+/FrontEnd/node_modules
+*.json

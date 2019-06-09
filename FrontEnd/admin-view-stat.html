@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book Insert</title>
+  <title>Statical Data</title>
   
   <!-- PLUGINS CSS STYLE -->
   <!-- Bootstrap -->
@@ -32,7 +32,7 @@
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
     <script src="js/vue.js"></script>
-    <script src="js/vue-resource.min.js"></script> 
+    <script src="js/vue-resource.js"></script> 
     <script src="js/vue-router.js"></script> 
     <script src="js/frappe-charts.min.iife.js"></script> 
 </head>
@@ -128,7 +128,7 @@
                             <input v-model="y2" style="margin-left:20px;width: 50px">-
                             <input v-model="m2" style="width: 25px">-
                             <input v-model="d2" style="margin-right:20px;width: 25px">
-                            <button class="btn btn-main-sm" @click="filt">Search</button>
+                            <button class="btn btn-main-sm" @click="filtDate()">Search</button>
                         </p>
                         <!--Chart-->
                         <div id="chart"></div>
@@ -174,7 +174,7 @@
 
   <!-- JAVASCRIPTS -->
 
-	<script src="js/scripts.js"></script>
+	  <script src="js/scripts.js"></script>
     <script src="js/admin-view-stat.js"></script>
 
 </body>
