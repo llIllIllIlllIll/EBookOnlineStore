@@ -113,10 +113,6 @@
 	</div>
 	<!-- Container End -->
 </section>
-
-<div id="rv">
-    <router-view></router-view>
-</div>
 <section class="section-sm" id="browseList">
     <router-view></router-view>
 	<div class="container" v-if="browse_state">
@@ -205,6 +201,7 @@
                         v-bind:imgurl="book.imgurl"
                         v-bind:isbnnum="book.isbnnum"
                         v-bind:storage="book.storage"
+                        v-bind:bookid="book.bookid"
                         v-on:go="go(index)"
                         >
                         </li>
@@ -270,9 +267,10 @@
 </footer>
 
   <!-- JAVASCRIPTS -->
-
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script>
     <script src="js/scripts.js"></script>
-    <script src="public/browse.js"></script>
+    <script src="js/browse.js"></script>
     
 
 </body>

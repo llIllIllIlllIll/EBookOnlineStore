@@ -29,4 +29,5 @@ public interface BookRepository extends CrudRepository<book, Integer> {
     @Modifying
     @Transactional
     public void deleteByBookid(int bookid);
+
 }

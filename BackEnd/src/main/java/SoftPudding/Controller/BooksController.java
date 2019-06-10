@@ -1,14 +1,14 @@
 package SoftPudding.Controller;
 
 import java.io.File;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import SoftPudding.Entity.book;
+import SoftPudding.Entity.m_bookcomment;
+import SoftPudding.Entity.m_sec_comment;
 import SoftPudding.Entity.user;
 import SoftPudding.Repository.BookRepository;
+import SoftPudding.Service.BookCommentService;
 import SoftPudding.Service.BookService;
 import SoftPudding.Service.UserService;
 import SoftPudding.ServiceImpl.BookServiceImpl;
@@ -34,12 +34,38 @@ public class BooksController {
     private BookService bookService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private BookCommentService bookCommentService;
 
     @RequestMapping(path = "/all")
-    public
-    @ResponseBody
-    List<book> allBooks(){
+    public @ResponseBody List<book> allBooks()
+    {
         return bookService.allBooks();
+    }
+
+    @RequestMapping(path = "/getbook")
+    public @ResponseBody book getBook(@RequestParam(value = "bookid")int bookid)
+    {
+        return bookService.getByBookid(bookid);
+    }
+
+    @RequestMapping(path = "/addComments")
+    public void addComments(){
+        List<book> bookSet = bookService.allBooks();
+        for(book bk: bookSet){
+            int bookid = bk.getBookid();
+            m_bookcomment mBookcomment = new m_bookcomment(bookid,"Can this book be a little cheaper?",1);
+            m_sec_comment secComment1 = new m_sec_comment(2,"I agree...");
+            m_sec_comment secComment2 = new m_sec_comment(3,"I think it's already cheap come on you guys..");
+            secComment1.getF_comments().add(secComment2);
+            mBookcomment.getSec_comments().add(secComment1);
+            bookCommentService.saveComment(mBookcomment);
+        }
+    }
+
+    @RequestMapping(path = "/comments")
+    public @ResponseBody Set<m_bookcomment> getComments(@RequestParam(value="bookid") int bookid){
+        return bookCommentService.getComments(bookid);
     }
 
     @CrossOrigin(origins = "*" ,maxAge = 3600)
@@ -76,5 +102,6 @@ public class BooksController {
         }
         return false;
     }
+
 
 }
