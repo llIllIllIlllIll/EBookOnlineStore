@@ -1,17 +1,18 @@
 Vue.component('comment',{
     props:['userid','commenttime','content','sec_comments'],
     template:
-    '<div><p style="font-size: 20px;">{{content}}</p>\
+    '<div><p style="font-size: 20px;color: black;">{{content}}</p>\
      <p style="text-align: right">Posted by User {{userid}} on {{commenttime}}</p>\
      <div is="sec-comment" v-for=" (c,index) in sec_comments" v-bind:userid="c.userid"\
         v-bind:key="index" v-bind:commenttime="c.commenttime" v-bind:content="c.content"\
-        v-bind:f_comments="c.f_comments" v-bind:res_userid="userid"></div></div>',
+        v-bind:f_comments="c.f_comments" v-bind:res_userid="userid"></div><hr></hr></div>',
 })
 
 Vue.component('sec-comment',{
     props:['userid','commenttime','content','f_comments','res_userid'],
     template:
-    '<div><p style="font-size: 18px;margin-left: 30px;">Reply User{{res_userid}}: {{content}}</p>\
+    '<div><p style="font-size: 15px;margin-left: 30px;">Reply User{{res_userid}}:</p>\
+     <p style="font-size: 18px;margin-left: 30px;color: black;"> {{content}}</p>\
      <p style="text-align: right;">Posted by User {{userid}} on {{commenttime}}</p>\
      <div is="sec-comment" v-for=" (c,index) in f_comments" v-bind:userid="c.userid"\
         v-bind:key="index" v-bind:commenttime="c.commenttime" v-bind:content="c.content"\
