@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>All orders</title>
+  <title>Statical Data</title>
   
   <!-- PLUGINS CSS STYLE -->
   <!-- Bootstrap -->
@@ -31,9 +31,10 @@
   <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-
-  <script src="js/vue.js"></script>
-  <script src="js/vue-resource.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/vue-resource.js"></script> 
+    <script src="js/vue-router.js"></script> 
+    <script src="js/frappe-charts.min.iife.js"></script> 
 </head>
 
 <body class="body-wrapper">
@@ -48,32 +49,26 @@
 					<span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-						<ul class="navbar-nav ml-auto main-nav ">
-							<li class="nav-item">
-								<a class="nav-link" href="index.html">Home</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="browse.html">BookList</a>
-							</li>
-							<li class="nav-item active">
-								<a class="nav-link" href="account-all-orders.html">MyOrders</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="account-shopping-cart.html">ShoppingCart</a>
-							</li>
-							<li class="nav-item" v-if="isadmin">
-								<a class="nav-link" href="admin-book-management.html">AdminPage</a>
-							</li>
-						</ul>
+              <ul class="navbar-nav ml-auto main-nav ">
+                  <li class="nav-item">
+                    <a class="nav-link" href="index.html">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="browse.html">BookList</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="account-all-orders.html">MyOrders</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="account-shopping-cart.html">ShoppingCart</a>
+                  </li>
+                  <li class="nav-item active">
+                    <a class="nav-link" href="admin-book-management.html">AdminPage</a>
+                  </li>
+                </ul>
 						<ul class="navbar-nav ml-auto mt-10">
-							<li class="nav-item" v-if="!isLoggedIn">
-								<a class="nav-link login-button" href="login.html">Login</a>
-							</li>
-							<li class="nav-item" v-if="!isLoggedIn">
-								<a class="nav-link login-button" href="register.html">Register</a>
-							</li>
-							<li class="nav-item" v-if="isLoggedIn">
-								<a class="nav-link"><b>Welcome, {{username}}!</b></a>
+							<li class="nav-item">
+								<a class="nav-link"><b>Welcome, User {{username}}!</b></a>
 							</li>
 						</ul>
 					</div>
@@ -87,7 +82,7 @@
 ===================================-->
 <section class="dashboard section">
 	<!-- Container Start -->
-	<div class="container" id="orderlist">
+	<div class="container" id="data">
 		<!-- Row Start -->
 		<div class="row">
 			<div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
@@ -99,20 +94,20 @@
 							<img src="img/demouser.jpg" alt="" class="rounded-circle">
 						</div>
 						<!-- User Name -->
-						<h5 class="text-center">{{username}}</h5>
+						<h5 class="text-center">USER ACCOUNT</h5>
 						<p>Joined February 06, 2017</p>
 						<a href="user-profile.html" class="btn btn-main-sm">Edit Profile</a>
 					</div>
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-							<li class="active">
+              <li>
 								<a href="account-all-orders.html"><i class="fa fa-bookmark-o"></i> All orders</a>
 							</li>
 							<li>
 								<a href="account-shopping-cart.html"><i class="fa fa-file-archive-o"></i>Shopping Cart</a>
 							</li>
-							<li>
+							<li class="active">
 								<a href="account-view-stat.html"><i class="fa fa-bolt"></i>See My Statistics</a>
 							</li>
 							<li>
@@ -126,38 +121,26 @@
 				</div>
 			</div>
 			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
-				<!-- Recently Favorited -->
-				<div class="widget dashboard-container my-adslist" >
-					<h3 class="widget-header">All orders</h3>
-					<p>Select from   
-						<input v-model="y1" style="margin-left:20px;width: 50px">-
-						<input v-model="m1" style="width: 25px">-
-						<input v-model="d1" style="margin-right:20px;width: 25px">
-						to
-						<input v-model="y2" style="margin-left:20px;width: 50px">-
-						<input v-model="m2" style="width: 25px">-
-						<input v-model="d2" style="margin-right:20px;width: 25px">
-						<button class="btn btn-main-sm" @click="filt">Search</button>
-					</p>
-					<table class="table table-responsive product-dashboard-table">
-							<tr>
-								<th>Order ID</th>
-								<th>Detail</th>
-								<th class="text-center">Date</th>
-								<th class="text-center">Action</th>
-							</tr>
-							<tr is="order-info"
-								v-for="(order,index) in orders"
-								v-bind:key="index"
-								v-bind:orderid="order.orderid"
-								v-bind:date="order.orderdate"
-								v-bind:allcost="order.allcost"
-								v-bind:allbooks="order.allbooks"
-							>
-							</tr>
-					</table>
-					
+				<div class="widget personal-info">
+                    <h3 class="widget-header">
+                        All Book Sales
+                        <p>Select from   
+                            <input v-model="y1" style="margin-left:20px;width: 50px">-
+                            <input v-model="m1" style="width: 25px">-
+                            <input v-model="d1" style="margin-right:20px;width: 25px">
+                            to
+                            <input v-model="y2" style="margin-left:20px;width: 50px">-
+                            <input v-model="m2" style="width: 25px">-
+                            <input v-model="d2" style="margin-right:20px;width: 25px">
+                            <button class="btn btn-main-sm" @click="filtDate()">Search</button>
+                        </p>
+                        <!--Chart-->
+                        <div id="chart"></div>
+                        
+                    </h3>
+						
 				</div>
+                    
 			</div>
 		</div>
 		<!-- Row End -->
@@ -195,7 +178,8 @@
 
   <!-- JAVASCRIPTS -->
 
-	<script src="js/order.js"></script>
+	  <script src="js/scripts.js"></script>
+    <script src="js/account-view-stat.js"></script>
 
 </body>
 

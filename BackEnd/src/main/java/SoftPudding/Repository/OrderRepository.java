@@ -32,4 +32,6 @@ public interface OrderRepository extends CrudRepository<order, Integer> {
     @Query(value = "CALL calcForAllOrders();", nativeQuery = true)
     public void calcForAllOrders();
 
+    public List<order> getAllByUserid(int userid);
+
 }

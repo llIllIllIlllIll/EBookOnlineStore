@@ -34,26 +34,6 @@ public class OrderController {
     @Autowired
     private BookService bookService;
 
-    @CrossOrigin(origins = "*" ,maxAge = 3600)
-    @GetMapping(path="/all")
-    public @ResponseBody Set<order> all(HttpServletRequest request, HttpServletResponse response){
-        int userid=(int)request.getSession().getAttribute("USERID");
-        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
-        response.setHeader("Access-Control-Allow-Credentials","true");
-        Set<order> orders= userService.searchById(userid).getOrders();
-        for(order it:orders){
-            Set<orderitem> allitems = it.getOrderitems();
-            float allcost=0;int allbooks=0;
-            for(orderitem item: allitems){
-                allcost+=item.getNum()*item.getPrice_each();
-                allbooks+=item.getNum();
-            }
-            it.setAllbooks(allbooks);
-            it.setAllcost(allcost);
-        }
-        return orders;
-    }
-
     @CrossOrigin(origins = "*", maxAge = 3600)
     @GetMapping(path="/info")
     public @ResponseBody Set<orderitem> infoAboutOrder(@RequestParam int orderid){
@@ -185,6 +165,32 @@ public class OrderController {
         return null;
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/myorders")
+    public @ResponseBody List<order> getMyOrders
+            (HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        HttpSession session = request.getSession();
+        Integer userid;
+        if((userid=(Integer) session.getAttribute("USERID"))==null){
+            System.err.print("Request does not have a valid session.");
+            throw new Exception("Request does not have a valid session.");
+        }
+
+        List<order> orders=orderService.getMyOrders(userid);
+        for(order it:orders){
+            Set<orderitem> allitems = it.getOrderitems();
+            float allcost=0;int allbooks=0;
+            for(orderitem item: allitems){
+                allcost+=item.getNum()*item.getPrice_each();
+                allbooks+=item.getNum();
+            }
+            it.setAllbooks(allbooks);
+            it.setAllcost(allcost);
+        }
+        return orders;
+    }
 
 
 }

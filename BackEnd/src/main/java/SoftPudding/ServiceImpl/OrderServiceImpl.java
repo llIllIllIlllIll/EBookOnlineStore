@@ -38,4 +38,8 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.calcForAllOrders();
         return orderRepository.findAll();
     }
+
+    public List<order> getMyOrders(int userid){
+        return orderRepository.getAllByUserid(userid);
+    }
 }

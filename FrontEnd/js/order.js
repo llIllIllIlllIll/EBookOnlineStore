@@ -1,7 +1,3 @@
-import Vue from './vue.js';
-import VueResource from 'vue-resource';
-Vue.use(VueResource);
-
 Vue.component('order-info',{
     props:['orderid','date','allcost','allbooks'],
     template:'<tr><td class="product-thumb">\
@@ -66,7 +62,7 @@ var app_order=new Vue({
                 alert("CONNECTION ERR.");
             });
 
-            this.$http.get('http://localhost:8080/orders/all',{emulateJSON:true,withCredentials:true})
+            this.$http.get('http://localhost:8080/orders/myorders',{emulateJSON:true,withCredentials:true})
             .then(function(res){
 				console.log('请求成功');
                 console.log(res.body);

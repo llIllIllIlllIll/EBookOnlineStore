@@ -15,4 +15,5 @@ public interface OrderService {
     public int getLatestOrderid();
     public void saveOrderitem(int orderid, int bookid, float price, int num);
     public List<order> getAllOrders();
+    public List<order> getMyOrders(int userid);
 }
