@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book Insert</title>
+  <title>User Management</title>
   
   <!-- PLUGINS CSS STYLE -->
   <!-- Bootstrap -->
@@ -43,28 +43,25 @@
 		<div class="row">
 			<div class="col-md-12">
 				<nav class="navbar navbar-expand-lg  navigation">
-					
-					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-					<span class="navbar-toggler-icon"></span>
-					</button>
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav ml-auto main-nav ">
-                  <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="browse.html">BookList</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="account-all-orders.html">MyOrders</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="account-shopping-cart.html">ShoppingCart</a>
-                  </li>
-                  <li class="nav-item active">
-                    <a class="nav-link" href="admin-book-management.html">AdminPage</a>
-                  </li>
-                </ul>
+						<!--Display admin name-->
+						<ul class="navbar-nav ml-auto main-nav ">
+							<li class="nav-item">
+								<a class="nav-link" href="index.html">Home</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="browse.html">BookList</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="account-all-orders.html">MyOrders</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="account-shopping-cart.html">ShoppingCart</a>
+							</li>
+							<li class="nav-item active">
+								<a class="nav-link" href="admin-book-management.html">AdminPage</a>
+							</li>
+						</ul>
 						<ul class="navbar-nav ml-auto mt-10">
 							<li class="nav-item">
 								<a class="nav-link"><b>Welcome, ADMIN {{adminname}}!</b></a>
@@ -81,7 +78,7 @@
 ===================================-->
 <section class="dashboard section">
 	<!-- Container Start -->
-	<div class="container" id="rd">
+	<div class="container" id="om">
 		<!-- Row Start -->
 		<div class="row">
 			<div class="col-md-10 offset-md-1 col-lg-4 offset-lg-0">
@@ -99,11 +96,14 @@
 					<!-- Dashboard Links -->
 					<div class="widget user-dashboard-menu">
 						<ul>
-              <li>
-                <a href="admin-user-management.html"><i class="fa fa-user"></i>User Management</a></li>
-              <li>
-							<li class="active">
+							<li>
+								<a href="admin-user-management.html"><i class="fa fa-user"></i>User Management</a></li>
+						    <li>
+							<li>
 								<a href="admin-book-management.html"><i class="fa fa-bookmark-o"></i>Book Management</a>
+							</li>
+							<li class="active">
+								<a href="admin-view-allorders.html"><i class="fa fa-bolt"></i>View All Orders</a>
 							</li>
 							<li>
 								<a href="admin-view-stat.html"><i class="fa fa-file-archive-o"></i>View Statistical Data</a>
@@ -116,46 +116,43 @@
 				</div>
 			</div>
 			<div class="col-md-10 offset-md-1 col-lg-8 offset-lg-0">
-				<div class="widget personal-info">
-            <h3 class="widget-header">
-                <a style="color:green;text-align:right" href="admin-book-insert.html"><b>ADD NEW BOOK/</b></a>
-                <a  style="color:brown" href="admin-book-management.html">DELETE BOOK</a>
-                
-            </h3>
-						<div class="form-group">
-						    <label>Bookname</label>
-                            <input type="text" v-model="bookname"
-                            class="form-control" style="width:650px" name="bookname">
-                        </div>
-                        <div class="form-group">
-						    <label>Author</label>
-                            <input type="text" v-model="author"
-                            class="form-control" style="width:650px" name="author">
-                        </div>
-                        <div class="form-group">
-						    <label>ISBN number</label>
-                            <input type="text" v-model="isbnnum"
-                            class="form-control" style="width:650px" name="isbnnum">
-                        </div>
-                        <div class="form-group">
-						    <label>Price</label>
-                            <input type="number" v-model="price"
-                            min="0" max="9999" step="0.1" class="form-control" style="width:650px" name="price">
-                        </div>
-                        <div class="form-group">
-						    <label>Storage</label>
-                            <input type="number" v-model="storage"
-                            step="1" min="0" max="1000" class="form-control" style="width:650px" name="storage">
-                        </div>
-                        <!-- Book Cover Upload -->
-                        <div class="form-group choose-file">
-							              <i class="fa fa-bookmark-o text-center"></i>
-                            <input type="file" v-on:change="fileChange($event)"
-                            class="form-control-file d-inline" name="bookcover">
-						            </div>
-						<button class="btn btn-transparent" @click="submitform">Insert Book</button>
+				<div class="widget dashboard-container my-adslist">
+						<div class="advance-search">
+								<div class="row">
+								<!-- Store Search -->
+									<div class="col-lg-6 col-md-12">
+										<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" 
+												id="search" placeholder="Search for date, orderid, or userid.."
+												style="width:450px" v-model="searchContent">
+										<!-- Search Button -->
+									</div>
+									<div class="col-lg-6 col-md-12">
+										<button v-on:click="search" class="btn btn-main" style="margin-left:150px">SEARCH</button>
+									</div>
+								</div>
+						</div>
+                    <!--User list-->
+                    <table class="table table-responsive product-dashboard-table" style="margin-top:20px">
+						<thead>
+							<tr>
+								<th>Order ID</th>
+								<th>Information</th>
+								<th class="text-center">Order Date</th>
+								<th class="text-center">User ID</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr is="list-order"
+							v-for="(order,index) in displays"
+							v-bind:userid="order.userid"
+							v-bind:allbooks="order.allbooks"
+							v-bind:allcost="order.allcost"
+							v-bind:orderdate="order.orderdate"
+							v-bind:orderid="order.orderid"
+							></tr>
+						</tbody>
+					</table>
 				</div>
-                    
 			</div>
 		</div>
 		<!-- Row End -->
@@ -194,7 +191,7 @@
   <!-- JAVASCRIPTS -->
 
 	<script src="js/scripts.js"></script>
-	<script src="js/admin-book-insert.js"></script>
+	<script src="js/admin-view-allorders.js"></script>
 
 </body>
 

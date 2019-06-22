@@ -1,5 +1,5 @@
 Vue.component('list-item',{
-    props:['bookid','bookname','isbnnum','price','storage','imgurl'],
+    props:['bookid','bookname','isbnnum','price','storage','imgurl','index'],
     methods:{
         deleteBook:function(bookid){
             this.$http.get('http://localhost:8080/books/delete?bookid='+bookid,{emulateJSON:true,withCredentials:true})
@@ -17,6 +17,15 @@ Vue.component('list-item',{
                     console.log("Fail in request: "+'http://localhost:8080/books/delete?bookid='+bookid);
                 }
             )
+        },
+        modifyBook:function(i){
+            app_bm.showOverlay=true;
+            app_bm.o_bookid=app_bm.displays[i].bookid;
+            app_bm.o_author=app_bm.displays[i].author;
+            app_bm.o_bookname=app_bm.displays[i].bookname;
+            app_bm.o_isbnnum=app_bm.displays[i].isbnnum;
+            app_bm.o_price=app_bm.displays[i].price;
+            app_bm.o_storage=app_bm.displays[i].storage;
         }
     },
     template:'<tr>\
@@ -33,7 +42,7 @@ Vue.component('list-item',{
                     <div class="">\
                     <ul class="list-inline justify-content-center">\
                         <li class="list-inline-item">\
-                            <a class="edit" >\
+                            <a class="edit" href="javascript:void(0);"  @click="modifyBook(index)">\
                                 <i class="fa fa-clipboard"></i>\
                             </a>\
                         </li>\
@@ -116,7 +125,17 @@ var app_bm= new Vue({
     el:"#bm",
     data:{
         books:[],
-        displays:[]
+        displays:[],
+        searchContent:"",
+        c:"",
+        showOverlay:false,
+        o_bookid:0,
+        o_bookname:"",
+        o_author:"",
+        o_price:0,
+        o_storage:0,
+        o_isbnnum:0,
+        o_file:{}
     },
     mounted(){
         this.$http.get('http://localhost:8080/books/all').then(function(res){
@@ -145,6 +164,63 @@ var app_bm= new Vue({
                 this.displays.push(this.books[i]);
 
 			}
-		}
+        },
+        search:function(){
+            var l=this.displays.length;
+            this.c=this.searchContent;
+            for(var i=0;i<l;i++)
+                this.displays.pop();
+            if(this.searchContent=="")
+            {
+                for(var i=0;i<this.books.length;i++)
+                {   
+                    this.displays.push(this.books[i]);
+                }
+            }
+            else{
+                for(var i=0;i<this.books.length;i++)
+                {   
+                    if(this.books[i].bookname.toLowerCase().match(this.searchContent.toLowerCase())||
+                        this.books[i].author.toLowerCase().match(this.searchContent.toLowerCase())||
+                        this.books[i].isbnnum.toLowerCase().match(this.searchContent.toLowerCase()))
+                        { 
+							this.displays.push(this.books[i]);
+						}
+				}
+			}
+
+        },
+        cancelChange:function(){
+            this.showOverlay=false;
+        },
+        submitChange:function(){
+            var formdata = new FormData();
+
+            formdata.append('bookid',this.o_bookid);
+            formdata.append('bookname',this.o_bookname);
+            formdata.append('author',this.o_author);
+            formdata.append('isbnnum',this.o_isbnnum);
+            formdata.append('price',this.o_price);
+            formdata.append('storage',this.o_storage);
+            formdata.append('bookcover',this.o_file);
+            
+            let config = {
+                'Content-Type': 'multipart/form-data',
+                'withCredentials': 'true'
+            };
+            this.$http.post('http://localhost:8080/books/update',formdata,config)
+            .then(
+                function(){
+                    alert("BOOK "+this.o_bookname+" HAS BEEN UPDATED.");
+                    location.reload();
+                },
+                function(){
+                    alert("FAIL TO SUBMIT FORM.");
+                }
+            )
+        },
+        fileChange:function(event){
+            this.o_file=event.target.files[0];
+        }
     }
 })

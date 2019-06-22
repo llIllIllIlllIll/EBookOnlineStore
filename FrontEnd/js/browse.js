@@ -15,10 +15,10 @@ Vue.component('book-info',{
 		    <h4 class="card-title"><a href="">{{title}}</a></h4>\
 		    <ul class="list-inline product-meta">\
 		    	<li class="list-inline-item">\
-		    		<a href=""><i class="fa fa-folder-open-o"></i>IT</a>\
+		    		<a href=""><i class="fa fa-grav"></i>{{isbnnum}}</a>\
 		    	</li>\
 		    	<li class="list-inline-item">\
-		    		<a href="">{{author}}</a>\
+		    		<a href=""><i class="fa fa-user-o"></i>{{author}}</a>\
 		    	</li>\
 		    </ul>\
 		    <p class="card-text"></p>\

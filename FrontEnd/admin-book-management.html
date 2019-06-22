@@ -73,9 +73,6 @@
 		</div>
 	</div>
 </section>
-<!--==================================
-=            User Profile            =
-===================================-->
 <section class="dashboard section">
 	<!-- Container Start -->
 	<div class="container" id="bm">
@@ -117,9 +114,23 @@
                     <h3 class="widget-header">
 						<a  style="color:brown" href="admin-book-management.html"><b>DELETE BOOK/</b></a>
                         <a style="color:green;text-align:right" href="admin-book-insert.html">ADD NEW BOOK</a>
-                    </h3>
+					</h3>
+					<div class="advance-search">
+						<div class="row">
+							<!-- Store Search -->
+							<div class="col-lg-6 col-md-12">
+								<input type="text" class="form-control mb-2 mr-sm-2 mb-sm-0" 
+								id="search" placeholder="Search for title, author, or ISBN number.."
+								style="width:450px" v-model="searchContent">
+								<!-- Search Button -->
+							</div>
+							<div class="col-lg-6 col-md-12">
+								<button v-on:click="search" class="btn btn-main" style="margin-left:150px">SEARCH</button>
+							</div>
+						</div>
+					</div>
                     <!--Book list-->
-                    <table class="table table-responsive product-dashboard-table">
+                    <table class="table table-responsive product-dashboard-table" style= "margin-top:20px">
 						<thead>
 							<tr>
 								<th>Cover</th>
@@ -137,6 +148,7 @@
 								v-bind:price="item.price"
 								v-bind:storage="item.storage"
 								v-bind:imgurl="item.imgurl"
+								v-bind:index="index"
 							></tr>
 						</tbody>
 					</table>
@@ -144,6 +156,43 @@
 			</div>
 		</div>
 		<!-- Row End -->
+		<!--弹出-->
+		<div class="overlay" v-if="showOverlay">
+			<div class= "con">
+						<div class="form-group">
+							<label>Bookname</label>
+                        	<input type="text" v-model="o_bookname"
+                        	class="form-control" style="width:350px" name="bookname">
+                        </div>
+                        <div class="form-group">
+						    <label>Author</label>
+                            <input type="text" v-model="o_author"
+                            class="form-control" style="width:350px" name="author">
+                        </div>
+                        <div class="form-group">
+						    <label>ISBN number</label>
+                            <input type="text" v-model="o_isbnnum"
+                            class="form-control" style="width:350px" name="isbnnum">
+                        </div>
+                        <div class="form-group">
+						    <label>Price</label>
+                            <input type="number" v-model="o_price"
+                            min="0" max="9999" step="0.1" class="form-control" style="width:350px" name="price">
+                        </div>
+                        <div class="form-group">
+						    <label>Storage</label>
+                            <input type="number" v-model="o_storage"
+                            step="1" min="0" max="1000" class="form-control" style="width:350px" name="storage">
+						</div>
+						<div class="form-group choose-file">
+							<input type="file" v-on:change="fileChange($event)"
+							class="form-control-file d-inline" name="bookcover">
+						</div>
+						<button class="btn btn-transparent" @click="submitChange">Save</button>
+						<button class="btn btn-transparent" @click="cancelChange">Cancel</button>
+			</div>
+		</div>
+
 	</div>
 	<!-- Container End -->
 </section>

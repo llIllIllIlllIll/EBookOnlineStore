@@ -50,4 +50,8 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    public List<user> findAllUsers(){
+        return userRepository.findAll();
+    }
+
 }

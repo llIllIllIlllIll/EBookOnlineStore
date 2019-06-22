@@ -188,6 +188,7 @@ public class OrderController {
             }
             it.setAllbooks(allbooks);
             it.setAllcost(allcost);
+            orderService.save(it);
         }
         return orders;
     }

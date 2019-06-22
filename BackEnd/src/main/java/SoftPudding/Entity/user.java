@@ -1,5 +1,7 @@
 package SoftPudding.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -22,6 +24,9 @@ public class user {
     @Column(name = "isadmin")
     private Boolean isadmin;
 
+    @Column(name = "isactive")
+    private Boolean isactive;
+
     @OneToMany(mappedBy = "userid", fetch = FetchType.LAZY)
     private Set<order> orders;
 
@@ -31,6 +36,7 @@ public class user {
         this.setID(0);
         this.setPwd(pwd);
         this.setIsadmin(false);
+        this.setIsactive(true);
     }
     public user(){}
 
@@ -74,5 +80,14 @@ public class user {
         return this.isadmin;
     }
 
+    public void setIsactive(Boolean isactive) {
+        this.isactive = isactive;
+    }
+
+    public boolean getIsactive(){
+        return this.isactive;
+    }
+
+    @JsonIgnore
     public Set<order> getOrders(){return this.orders;}
 }

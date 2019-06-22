@@ -103,5 +103,45 @@ public class BooksController {
         return false;
     }
 
+    @CrossOrigin(origins = "*" ,maxAge = 3600)
+    @RequestMapping(value ="/update", method = RequestMethod.POST)
+    public @ResponseBody void update(@RequestParam(value = "bookid") int bookid, @RequestParam(value="bookname") String bookname,
+                                     @RequestParam(value ="author") String author, @RequestParam(value ="isbnnum") String isbnnum,
+                                     @RequestParam(value = "price") float price, @RequestParam(value ="storage") int storage,
+                                     @RequestParam(value = "bookcover") MultipartFile file, HttpServletRequest request,HttpServletResponse response)
+            throws Exception
+    {
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        HttpSession session = request.getSession();
+
+        Integer userid = (Integer)session.getAttribute("USERID");
+        if(userid==null){
+            throw new Exception("Request does not have a valid session.");
+        }
+        else{
+            if(userService.checkIsadmin(userid)){
+                book bk = bookService.getByBookid(bookid);
+
+                String filePath;
+                if(file!=null&&!file.isEmpty()){
+                    filePath= BOOKCOVERPATH+new Date().getTime()+rand.nextInt(9999)+file.getOriginalFilename();
+                    file.transferTo(new File(filePath));
+                    bk.setImgurl(filePath);
+                }
+
+                bk.setBookname(bookname);
+                bk.setIsbnnum(isbnnum);
+                bk.setPrice(price);
+                bk.setStorage(storage);
+                bk.setAuthor(author);
+                bookService.saveNewBook(bk);
+            }
+            else{
+                throw new Exception("Request must be submitted by admin");
+            }
+        }
+    }
+
 
 }

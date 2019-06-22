@@ -14,4 +14,5 @@ public interface UserService{
     public int getUseridByAccountname(String accountname);
     public boolean checkAccountname(String accountname);
     public boolean checkIsadmin(int id);
+    public List<user> findAllUsers();
 }

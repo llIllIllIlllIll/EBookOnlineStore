@@ -1,10 +1,3 @@
-import Vue from './vue.js';
-import VueResource from 'vue-resource';
-import VueRouter from './vue-router.js';
-Vue.use(VueResource);
-Vue.use(VueRouter);
-Vue.http.options.xhr = {withCredentials: true};
-
 var app_login=new Vue({
     el:'#login',
     data:{
@@ -44,15 +37,17 @@ var app_login=new Vue({
                                 //otherwise
                                 console.log("Cannot connect to http://localhost:8080/ebook/isadmin");
                             }
-                        )
-                        
+                        )        
+                    }else{
+                        alert("啊♂怎么回事");  
                     }
-                    else{
-                        alert("Your Account Name Or Password Is Not Correct!");
-                    }
-                },function(){
+                },function(res){
                     //failure with login request
-                    console.log('请求失败处理');
+                    console.log(res);
+                    if(res.status == 405)
+                        alert("Your Account Name Or Password Is Not Correct!");
+                    else if(res.status == 403)
+                        alert("您的账号已经被禁用");
                 });
             }
         }

@@ -37,4 +37,22 @@ public class book{
     public int getStorage(){return storage;}
     public float getPrice(){return price;}
     public String getImgurl(){return imgurl;}
+    public void setBookname(String bookname){
+        this.bookname=bookname;
+    }
+    public void setIsbnnum(String isbnnum){
+        this.isbnnum=isbnnum;
+    }
+    public void setAuthor(String author){
+        this.author=author;
+    }
+    public void setPrice(float price){
+        this.price=price;
+    }
+    public void setStorage(int storage){
+        this.storage=storage;
+    }
+    public void setImgurl(String imgurl){
+        this.imgurl=imgurl;
+    }
 }

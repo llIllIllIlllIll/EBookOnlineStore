@@ -42,4 +42,8 @@ public class OrderServiceImpl implements OrderService {
     public List<order> getMyOrders(int userid){
         return orderRepository.getAllByUserid(userid);
     }
+    public void save(order o ){
+        orderRepository.save(o);
+    }
+
 }
