@@ -130,6 +130,14 @@
                             <input v-model="d2" style="margin-right:20px;width: 25px">
                             <button class="btn btn-main-sm" @click="filtDate()">Search</button>
                         </p>
+                        <p>See Statistics for Book ID:
+                            <input v-model="bookid">
+                            <button class="btn btn-main-sm" style="margin-left:80px" @click="filtBookid()">Search</button>
+                        </p>
+                        <p>See Statistics for User ID:
+                            <input v-model="userid">
+                            <button class="btn btn-main-sm" style="margin-left:80px" @click="filtUserid()">Search</button>
+                        </p>
                         <!--Chart-->
                         <div id="chart"></div>
                         

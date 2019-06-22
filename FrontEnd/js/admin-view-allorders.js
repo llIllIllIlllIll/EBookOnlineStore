@@ -127,7 +127,7 @@ var app_om= new Vue({
                 {   
                     if(String(this.orders[i].orderid).match(this.searchContent)||
                         String(this.orders[i].userid).match(this.searchContent)||
-                        this.orders[i].orderdate.match(this.searchContent))
+                            this.orders[i].orderdate.match(this.searchContent))
                         { 
 							this.displays.push(this.orders[i]);
 						}

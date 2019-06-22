@@ -67,14 +67,16 @@ var app_main= new Vue({
 
 var app_data= new Vue({
     el:"#data",
-    data:{y1:"",y2:"",m1:"",m2:"",d1:"",d2:"",orders_meta:[],orders:[],labels:[],values:[]},
+    data:{y1:"",y2:"",m1:"",m2:"",d1:"",d2:"",orders_meta:[],orders:[],labels:[],values:[],
+        userid:"",bookid:""},
     mounted(){
         this.$http.get("http://localhost:8080/orders/allorders",{withCredentials:true,emulateJSON:true})
         .then(
             function(res){
                 var ct =0;
                 Object.assign(this.orders_meta,res.data);
-                console.log(res.data);
+                console.log(res);
+                console.log(this.orders_meta);
                 var len = this.orders.length;
                 for(var i=0;i<len;i++)
                     this.orders.pop();
@@ -91,6 +93,12 @@ var app_data= new Vue({
                         ct++;
                     }
                 }
+                len= this.orders_meta.length;
+                for(var i =0;i<len;i++)
+                    this.orders_meta.pop();
+                len = this.orders.length;
+                for(var i=0;i<len;i++)
+                    this.orders_meta.push(this.orders[i]);
                 this.makeChart();
             },
             function(){
@@ -143,40 +151,24 @@ var app_data= new Vue({
                 var date1=this.y1+"-"+this.m1+"-"+this.d1;
                 var date2=this.y2+"-"+this.m2+"-"+this.d2;
                 var l = this.orders.length;
-                for(var i=0;i<l;i++){
+                for(var i =0;i<l;i++)
                     this.orders.pop();
-                }
-                console.log("orders:"+this.orders);
                 l = this.orders_meta.length;
-                var c = 0;
-                for(var i=0;i<l;i++){
-                    if(this.orders_meta[i].orderdate>=date1&&this.orders_meta[i].orderdate<=date2)
-                    {
-                        if(c>0){
-                            if(this.orders_meta[i].orderdate==this.orders[c-1].orderdate)
-                                this.orders[c-1].allcost+=this.orders_meta[i].allcost;
-                            else{
-                                this.orders.push(this.orders_meta[i]);
-                                c++;
-                                console.log(date1);
-                                console.log(date2);
-                                console.log(this.orders_meta[i]);
-                            }
-                        }
-                        else{
-                            this.orders.push(this.orders_meta[i]);
-                            c++;
-                            console.log(date1);
-                            console.log(date2);
-                            console.log(this.orders_meta[i]);
-                        }
-                    }
+                for(var i =0;i<l;i++){
+                    if(date1<=this.orders_meta[i].orderdate&&this.orders_meta[i].orderdate<=date2)
+                        this.orders.push(this.orders_meta[i]);
                 }
                 this.makeChart();
             }
             else{
                 alert("YOU HAVE TO FILL IN BOTH YEARS MONTHS AND DAYS!");
             }
+        },
+        filtBookid:function(){
+            
+        },
+        filtUserid:function(){
+            
         }
     }
 })
