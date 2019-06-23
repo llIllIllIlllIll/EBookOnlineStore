@@ -206,7 +206,8 @@ var app_bm= new Vue({
             
             let config = {
                 'Content-Type': 'multipart/form-data',
-                'withCredentials': 'true'
+                'withCredentials': 'true',
+                'emulateJSON': 'true'
             };
             this.$http.post('http://localhost:8080/books/update',formdata,config)
             .then(

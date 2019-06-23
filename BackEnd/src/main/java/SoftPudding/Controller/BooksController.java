@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -108,12 +109,22 @@ public class BooksController {
     public @ResponseBody void update(@RequestParam(value = "bookid") int bookid, @RequestParam(value="bookname") String bookname,
                                      @RequestParam(value ="author") String author, @RequestParam(value ="isbnnum") String isbnnum,
                                      @RequestParam(value = "price") float price, @RequestParam(value ="storage") int storage,
-                                     @RequestParam(value = "bookcover") MultipartFile file, HttpServletRequest request,HttpServletResponse response)
+                                     HttpServletRequest request,HttpServletResponse response)
             throws Exception
     {
         response.setHeader("Access-Control-Allow-Origin",ORIGIN);
         response.setHeader("Access-Control-Allow-Credentials","true");
+
         HttpSession session = request.getSession();
+        MultipartFile file = null;
+
+        try{
+            MultipartHttpServletRequest multipartHttpServletRequest = (MultipartHttpServletRequest) request;
+            file=(MultipartFile)multipartHttpServletRequest.getFileMap().get("bookcover");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
 
         Integer userid = (Integer)session.getAttribute("USERID");
         if(userid==null){

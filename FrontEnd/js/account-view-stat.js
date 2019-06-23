@@ -54,7 +54,8 @@ var app_data= new Vue({
             function(res){
                 var ct =0;
                 Object.assign(this.orders_meta,res.data);
-                console.log(res.data);
+                console.log(res);
+                console.log(this.orders_meta);
                 var len = this.orders.length;
                 for(var i=0;i<len;i++)
                     this.orders.pop();
@@ -71,14 +72,13 @@ var app_data= new Vue({
                         ct++;
                     }
                 }
-                var len= this.orders_meta.length;
+                len= this.orders_meta.length;
                 for(var i =0;i<len;i++)
                     this.orders_meta.pop();
                 len = this.orders.length;
                 for(var i=0;i<len;i++)
                     this.orders_meta.push(this.orders[i]);
                 this.makeChart();
-        
             },
             function(){
                 alert("CONNECTION ERR.");
