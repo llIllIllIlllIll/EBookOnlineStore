@@ -7,6 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface OrderitemRepository extends CrudRepository<orderitem,Integer> {
@@ -14,4 +15,6 @@ public interface OrderitemRepository extends CrudRepository<orderitem,Integer> {
     @Transactional
     @Query(value ="INSERT INTO order_items VALUE(?1 ,?2, ?3, ?4, NULL)", nativeQuery = true)
     public void save(int orderid, int bookid, float price_each, int num);
+
+    public List<orderitem> findAllByBookid(int bookid);
 }

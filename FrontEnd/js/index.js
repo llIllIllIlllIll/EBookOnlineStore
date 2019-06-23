@@ -1,3 +1,7 @@
+import Vue from './vue.js';
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
+
 Vue.component('card',{
     props:['title','imgurl','author'],
     template:'<div class="col-sm-12 col-lg-4">\
@@ -42,7 +46,8 @@ var app_main=new Vue({
     el:"#main",
     data:{
         isLoggedIn:false,
-        username:null
+        username:null,
+        isadmin:false
     },
     mounted(){
         this.$http.get('http://localhost:8080/ebook/isLogin',{emulateJSON:true,withCredentials:true})
@@ -61,6 +66,25 @@ var app_main=new Vue({
                         console.log('请求成功');
                         console.log(res.bodyText);
                         this.username=res.bodyText;
+                            // check is admin?
+                            this.$http.get('http://localhost:8080/ebook/isadmin',{emulateJSON:true,withCredentials:true})
+                            .then(
+                                function(res){
+                                    console.log('请求成功:http://localhost:8080/ebook/isadmin');
+                                    console.log(res);
+                                    if(res.bodyText=="false"){
+                                        this.isadmin=false;
+                                    }
+                                    else{
+                                        this.isadmin=true;
+                                    }
+                                },
+                                function(){
+                                    console.log('请求失败:http://localhost:8080/ebook/isadmin');
+                                    alert("CONNECTION ERR.");
+                                    window.location.href="login.html";
+                                }
+                            )
                         
                     },function(){
                         console.log('请求失败处理');

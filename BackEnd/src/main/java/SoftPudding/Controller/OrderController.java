@@ -9,6 +9,9 @@ import SoftPudding.Service.UserService;
 import SoftPudding.ServiceImpl.BookServiceImpl;
 import SoftPudding.ServiceImpl.OrderServiceImpl;
 import SoftPudding.ServiceImpl.UserServiceImpl;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -30,26 +33,6 @@ public class OrderController {
     private UserService userService;
     @Autowired
     private BookService bookService;
-
-    @CrossOrigin(origins = "*" ,maxAge = 3600)
-    @GetMapping(path="/all")
-    public @ResponseBody Set<order> all(HttpServletRequest request, HttpServletResponse response){
-        int userid=(int)request.getSession().getAttribute("USERID");
-        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
-        response.setHeader("Access-Control-Allow-Credentials","true");
-        Set<order> orders= userService.searchById(userid).getOrders();
-        for(order it:orders){
-            Set<orderitem> allitems = it.getOrderitems();
-            float allcost=0;int allbooks=0;
-            for(orderitem item: allitems){
-                allcost+=item.getNum()*item.getPrice_each();
-                allbooks+=item.getNum();
-            }
-            it.setAllbooks(allbooks);
-            it.setAllcost(allcost);
-        }
-        return orders;
-    }
 
     @CrossOrigin(origins = "*", maxAge = 3600)
     @GetMapping(path="/info")
@@ -162,6 +145,71 @@ public class OrderController {
         return getCart(request,response);
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/allorders")
+    public @ResponseBody List<order> getAllOrders
+            (HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        HttpSession session = request.getSession();
+        Integer userid;
+        if((userid=(Integer) session.getAttribute("USERID"))==null){
+            System.err.print("Request does not have a valid session.");
+            throw new Exception("Request does not have a valid session.");
+        }
+        else{
+            if(userService.checkIsadmin(userid)){
+                return orderService.getAllOrders();
+            }
+        }
+        return null;
+    }
+
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/myorders")
+    public @ResponseBody List<order> getMyOrders
+            (HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        HttpSession session = request.getSession();
+        Integer userid;
+        if((userid=(Integer) session.getAttribute("USERID"))==null){
+            System.err.print("Request does not have a valid session.");
+            throw new Exception("Request does not have a valid session.");
+        }
+
+        List<order> orders=orderService.getMyOrders(userid);
+        for(order it:orders){
+            Set<orderitem> allitems = it.getOrderitems();
+            float allcost=0;int allbooks=0;
+            for(orderitem item: allitems){
+                allcost+=item.getNum()*item.getPrice_each();
+                allbooks+=item.getNum();
+            }
+            it.setAllbooks(allbooks);
+            it.setAllcost(allcost);
+            orderService.save(it);
+        }
+        return orders;
+    }
+
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/bookorders")
+    public @ResponseBody List<order> getOrdersByBookid
+            (@RequestParam(value = "bookid")int bookid,HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        return orderService.getSalesByBookid(bookid);
+    }
+
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/userorders")
+    public @ResponseBody List<order> getOrdersByUserid
+            (@RequestParam(value = "userid")int userid,HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        return orderService.getMyOrders(userid);
+    }
 
 
 }

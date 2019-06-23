@@ -1,5 +1,6 @@
 package SoftPudding.Service;
 
+import SoftPudding.Entity.order;
 import SoftPudding.Entity.user;
 import org.springframework.stereotype.Service;
 
@@ -12,4 +13,6 @@ public interface UserService{
     public user searchById(int id);
     public int getUseridByAccountname(String accountname);
     public boolean checkAccountname(String accountname);
+    public boolean checkIsadmin(int id);
+    public List<user> findAllUsers();
 }

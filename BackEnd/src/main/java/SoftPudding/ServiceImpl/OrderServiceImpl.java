@@ -34,4 +34,28 @@ public class OrderServiceImpl implements OrderService {
         orderitemRepository.save(orderid,bookid,p,n);
     }
 
+    public List<order> getAllOrders(){
+        orderRepository.calcForAllOrders();
+        return orderRepository.findAll();
+    }
+
+    public List<order> getMyOrders(int userid){
+        return orderRepository.getAllByUserid(userid);
+    }
+    public void save(order o ){
+        orderRepository.save(o);
+    }
+
+    public List<order> getSalesByBookid(int bookid){
+        List<orderitem> list = orderitemRepository.findAllByBookid(bookid);
+        List<order> res = new LinkedList<order>();
+        for(orderitem item : list){
+            order o = new order();
+            o.setAllcost(item.getPrice_each()*item.getNum());
+            o.setOrderdate(orderRepository.getByOrderid(item.getOrderid()).get(0).getOrderdate());
+            res.add(o);
+        }
+        return res;
+    }
+
 }

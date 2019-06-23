@@ -26,4 +26,6 @@ public interface UserRepository extends CrudRepository<user, Integer> {
     public List<user> getById(int id);
 
     public List<user> getByAccountname(String accountname);
+
+    public List<user> findAll();
 }

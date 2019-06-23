@@ -1,5 +1,6 @@
 package SoftPudding.ServiceImpl;
 
+import SoftPudding.Entity.order;
 import SoftPudding.Entity.user;
 import SoftPudding.Repository.UserRepository;
 import SoftPudding.Service.UserService;
@@ -40,4 +41,17 @@ public class UserServiceImpl implements UserService {
     public boolean checkAccountname(String name){
         return userRepository.search(name)==1;
     }
+
+    public boolean checkIsadmin(int userid){
+        List<user> res= userRepository.getById(userid);
+        if(res!=null){
+            return res.get(0).getIsadmin();
+        }
+        return false;
+    }
+
+    public List<user> findAllUsers(){
+        return userRepository.findAll();
+    }
+
 }

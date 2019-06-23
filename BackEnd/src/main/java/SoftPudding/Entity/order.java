@@ -1,5 +1,7 @@
 package SoftPudding.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -40,8 +42,8 @@ public class order {
         this.userid=userid;
     }
 
-    public void setOrderdate(Timestamp orderdate){
-        this.orderdate=orderdate.toString();
+    public void setOrderdate(String orderdate){
+        this.orderdate=orderdate;
     }
 
     private float allcost=0;
@@ -64,6 +66,7 @@ public class order {
         this.allcost=n;
     }
 
+    @JsonIgnore
     public Set<orderitem> getOrderitems(){
         return this.orderitems;
     }
