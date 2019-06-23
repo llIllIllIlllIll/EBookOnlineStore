@@ -165,10 +165,91 @@ var app_data= new Vue({
             }
         },
         filtBookid:function(){
-            
+            this.$http.get("http://localhost:8080/orders/bookorders?bookid="+this.bookid,{withCredentials:true,emulateJSON:true})
+            .then(
+            function(res){
+                var ct =0;
+
+                var len=this.orders_meta.length;
+                for(var i =0;i<len;i++){
+                    this.orders_meta.pop();
+                }
+                len = this.orders.length;
+                for(var i=0;i<len;i++)
+                    this.orders.pop();
+
+                Object.assign(this.orders_meta,res.data);
+                console.log(res);
+                console.log(this.orders_meta);
+                
+                console.log(len);
+                this.orders.push(this.orders_meta[0]);
+                console.log(this.orders_meta[0]);
+                for(var i=1;i<this.orders_meta.length;i++){
+                    if(this.orders_meta[i].orderdate==this.orders[ct].orderdate)
+                    {
+                        this.orders[ct].allcost+=this.orders_meta[i].allcost;               
+                    }
+                    else{
+                        this.orders.push(this.orders_meta[i]);
+                        ct++;
+                    }
+                }
+                len= this.orders_meta.length;
+                for(var i =0;i<len;i++)
+                    this.orders_meta.pop();
+                len = this.orders.length;
+                for(var i=0;i<len;i++)
+                    this.orders_meta.push(this.orders[i]);
+                this.makeChart();
+            },
+            function(){
+                alert("CONNECTION ERR.");
+            }
+        )
         },
         filtUserid:function(){
-            
+            this.$http.get("http://localhost:8080/orders/userorders?userid="+this.userid,{withCredentials:true,emulateJSON:true})
+            .then(
+            function(res){
+                var ct =0;
+                var len=this.orders_meta.length;
+                for(var i =0;i<len;i++){
+                    this.orders_meta.pop();
+                }
+                len = this.orders.length;
+                for(var i=0;i<len;i++)
+                    this.orders.pop();
+
+                Object.assign(this.orders_meta,res.data);
+                console.log(res);
+                console.log(this.orders_meta);
+
+                console.log(len);
+                this.orders.push(this.orders_meta[0]);
+                console.log(this.orders_meta[0]);
+                for(var i=1;i<this.orders_meta.length;i++){
+                    if(this.orders_meta[i].orderdate==this.orders[ct].orderdate)
+                    {
+                        this.orders[ct].allcost+=this.orders_meta[i].allcost;               
+                    }
+                    else{
+                        this.orders.push(this.orders_meta[i]);
+                        ct++;
+                    }
+                }
+                len= this.orders_meta.length;
+                for(var i =0;i<len;i++)
+                    this.orders_meta.pop();
+                len = this.orders.length;
+                for(var i=0;i<len;i++)
+                    this.orders_meta.push(this.orders[i]);
+                this.makeChart();
+            },
+            function(){
+                alert("CONNECTION ERR.");
+            }
+        )
         }
     }
 })

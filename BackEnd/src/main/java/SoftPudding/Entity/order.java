@@ -42,8 +42,8 @@ public class order {
         this.userid=userid;
     }
 
-    public void setOrderdate(Timestamp orderdate){
-        this.orderdate=orderdate.toString();
+    public void setOrderdate(String orderdate){
+        this.orderdate=orderdate;
     }
 
     private float allcost=0;

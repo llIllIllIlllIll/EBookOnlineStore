@@ -17,4 +17,5 @@ public interface OrderService {
     public List<order> getAllOrders();
     public List<order> getMyOrders(int userid);
     public void save(order o );
+    public List<order> getSalesByBookid(int bookid);
 }

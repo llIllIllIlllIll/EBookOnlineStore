@@ -193,5 +193,23 @@ public class OrderController {
         return orders;
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/bookorders")
+    public @ResponseBody List<order> getOrdersByBookid
+            (@RequestParam(value = "bookid")int bookid,HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        return orderService.getSalesByBookid(bookid);
+    }
+
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping("/userorders")
+    public @ResponseBody List<order> getOrdersByUserid
+            (@RequestParam(value = "userid")int userid,HttpServletRequest request, HttpServletResponse response) throws Exception{
+        response.setHeader("Access-Control-Allow-Origin",ORIGIN);
+        response.setHeader("Access-Control-Allow-Credentials","true");
+        return orderService.getMyOrders(userid);
+    }
+
 
 }
