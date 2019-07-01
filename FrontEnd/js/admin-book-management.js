@@ -1,5 +1,5 @@
 Vue.component('list-item',{
-    props:['bookid','bookname','isbnnum','price','storage','imgurl','index'],
+    props:['bookid','bookname','isbnnum','price','storage','imgurl','index','author'],
     methods:{
         deleteBook:function(bookid){
             this.$http.get('http://localhost:8080/books/delete?bookid='+bookid,{emulateJSON:true,withCredentials:true})
@@ -37,7 +37,7 @@ Vue.component('list-item',{
                     <span><strong>Price: </strong>${{price}} </span>\
                     <span class="status active"><strong>Storage</strong>{{storage}}</span>\
                 </td>\
-                <td class="product-category"><span class="categories">IT</span></td>\
+                <td class="product-category"><span class="categories">{{author}}</span></td>\
                 <td class="action" data-title="Action">\
                     <div class="">\
                     <ul class="list-inline justify-content-center">\
